@@ -40,7 +40,11 @@ typedef vptr_list_t vptr_queue_t;
 typedef vptr_list_t vptr_stack_t;
 typedef vptr_list_t vptr_priority_queue_t;
 
-
+enum color{
+	WHITE = 0, 
+	GRAY, 
+	BLACK
+}; 
 
 struct hnode
 {
@@ -116,10 +120,10 @@ hlist_t* h_create_list();
 status_t h_insert_end(hlist_t* pv_list, vnode_t* v);
 
 /* horizontal list management auxillary functions */
-static void h_generic_insert(hnode_t* ph_start, hnode_t* ph_mid, hnode_t* pv_end);
+static void h_generic_insert(hnode_t* ph_start, hnode_t* ph_mid, hnode_t* ph_end);
 static void h_generic_delete(hnode_t* h_delete_node);
 static hnode_t* h_search_node(hlist_t* ph_list, vertex_t v);
-static hnode_t* h_get_node(vnode_t* v);
+static hnode_t* h_get_node(vnode_t* v, double w);
 
 /* vertical node pointer list management interface routines */
 vptr_list_t* vptr_create_list();
