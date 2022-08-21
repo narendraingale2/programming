@@ -1,14 +1,67 @@
 #include<stdio.h>
 #include<assert.h>
-#include"graph.h"
 #include<stdlib.h>
 #include<math.h>
+#include"graph.h"
 
 
 
-graph_t create_graph(void);
-status_t add_vertex(graph_t* g, vertex_t v);
-status_t add_edge(graph_t* g, vertex_t v_start, vertex_t v_end);
+graph_t* create_graph(void)
+{
+    vlist_t* pv_list = NULL;
+    graph_t* g = NULL;
+
+    g = (graph_t*)xcalloc(1,sizeof(graph_t));
+    g->nr_edges = 0;
+    g->nr_vertex = 0;
+    g->v_list = v_create_list();
+
+    return(g);
+}
+
+status_t add_vertex(graph_t* g, vertex_t v)
+{
+    vlist_t* pv_list = NULL;
+    pv_list = g->v_list;
+    v_insert_end(pv_list, v);
+    
+    g->nr_vertex += 1;
+    return(SUCCESS);
+}
+
+status_t add_edge(graph_t* g, vertex_t v_start, vertex_t v_end, double w)
+{
+    vlist_t* pv_list = NULL;
+    vnode_t* pv_start = NULL;
+    vnode_t* pv_end = NULL;
+    hnode_t* ph_start_end = NULL;
+    hnode_t* ph_end_start = NULL;
+
+    pv_list = g->v_list;
+
+    pv_start = v_search_node(pv_list, v_start);
+    if(pv_start == NULL)
+        return(G_INVALID_VERTEX);
+    
+    pv_end = v_search_node(pv_list, v_end);
+    if(pv_end == NULL)
+        return(G_INVALID_VERTEX);
+
+    ph_start_end = h_search_node(pv_end->ph_adj_list, v_start);
+    ph_end_start = h_search_node(pv_start->ph_adj_list, v_end);
+
+    if(ph_start_end == NULL && ph_end_start == NULL)
+        return(G_EDGE_EXIST);
+
+    if((ph_start_end != NULL) ^ (ph_end_start != NULL))
+        return(G_CORRUPTED);
+    
+    h_insert_end(pv_start->ph_adj_list, pv_end, w);
+    h_insert_end(pv_end->ph_adj_list, pv_start, w);
+    
+    return(SUCCESS);
+}
+
 status_t remove_vertex(graph_t* g, vertex_t v);
 status_t remove_edge(graph_t* g, vertex_t v_start, vertex_t v_end);
 void print_graph(graph_t* g, const char* msg);
@@ -63,6 +116,7 @@ static vnode_t* v_search_node(vlist_t* pv_list, vertex_t v)
             return(pv_run);
         }
     }
+    return(NULL);
 }
 
 static vnode_t* v_get_node(vertex_t v)
@@ -75,6 +129,8 @@ static vnode_t* v_get_node(vertex_t v)
     p_new_node->priority_field = INFINITY;
     p_new_node->pv_pred = NULL;
     p_new_node->ph_adj_list = h_create_list();
+
+    return(p_new_node);
 }
 
 /* vertical list management fucntions */
@@ -114,7 +170,7 @@ static hnode_t* h_search_node(hlist_t* ph_list, vertex_t v)
     hnode_t* ph_run = NULL;
     for(ph_run = ph_list->next; ph_run != ph_list; ph_run = ph_run -> next)
     {
-            if(ph_run -> v == v)
+            if(ph_run->v->v == v)
             {
                 return(ph_run);
             }
@@ -126,11 +182,13 @@ static hnode_t* h_search_node(hlist_t* ph_list, vertex_t v)
 static hnode_t* h_get_node(vnode_t* v, double w)
 {
     hnode_t* p_new_node = NULL;
-    p_new_node = (hnode_t*)xcalloc(1,sizeof(vnode_t));
+    p_new_node = (hnode_t*)xcalloc(1,sizeof(hnode_t));
     p_new_node -> v = v;
     p_new_node -> next = NULL;
     p_new_node -> prev = NULL;
     p_new_node -> w = w;
+
+    return(p_new_node);
 }
 
 void* xcalloc(size_t nr_elements, size_t size_per_element)
@@ -140,7 +198,7 @@ void* xcalloc(size_t nr_elements, size_t size_per_element)
     p = calloc(nr_elements, size_per_element);
     if(p==NULL)
     {
-        sprintf(stderr, "Unable to allocate memory: OutOf virtual address");
+        fprintf(stderr, "Unable to allocate memory: OutOf virtual address");
         exit(EXIT_FAILURE);
     }
     return(p);

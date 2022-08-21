@@ -15,12 +15,13 @@
 #define G_EDGE_EXIST     4
 #define G_INVALID_VERTEX 5
 #define G_INVALID_EDGE   6
+#define G_CORRUPTED      7 
 
-#define V_LIST_EMPTY     7
+#define V_LIST_EMPTY     8
 #define H_LIST_EMPTY     V_LIST_EMPTY
 
 /* typedef */
-typedef struct gaph graph_t;
+typedef struct graph graph_t;
 
 typedef struct hnode hnode_t;
 typedef hnode_t hlist_t;
@@ -35,7 +36,7 @@ typedef int vertex_t;
 typedef int Bool;
 
 typedef struct vptr_node vptr_node_t;
-typedef vptr_node vptr_list_t;
+typedef vptr_node_t vptr_list_t;
 typedef vptr_list_t vptr_queue_t;
 typedef vptr_list_t vptr_stack_t;
 typedef vptr_list_t vptr_priority_queue_t;
@@ -48,11 +49,11 @@ enum color{
 
 struct hnode
 {
-    vertex_t v;
+    vnode_t* v;
 
     double w;
     struct hnode* next;
-    struct vnode* prev;
+    struct hnode* prev;
 };
 
 struct vnode
@@ -79,7 +80,7 @@ struct graph
 
 /* Graph client facing interfaces/apis */
 
-graph_t create_graph(void);
+graph_t* create_graph(void);
 status_t add_vertex(graph_t* g, vertex_t v);
 status_t add_edge(graph_t* g, vertex_t v_start, vertex_t v_end);
 status_t remove_vertex(graph_t* g, vertex_t v);
@@ -117,7 +118,7 @@ static vnode_t* v_get_node(vertex_t v);
 
 /* vertical list management fucntions */
 hlist_t* h_create_list();
-status_t h_insert_end(hlist_t* pv_list, vnode_t* v);
+status_t h_insert_end(hlist_t* pv_list, vnode_t* v, double w);
 
 /* horizontal list management auxillary functions */
 static void h_generic_insert(hnode_t* ph_start, hnode_t* ph_mid, hnode_t* ph_end);
@@ -133,7 +134,7 @@ status_t vptr_get_start(vptr_list_t* pvptr_list, vnode_t** ppv_start_node);
 status_t vptr_get_end(vptr_list_t* pvptr_list, vnode_t** ppv_end_node);
 status_t vptr_pop_start(vptr_list_t* pvptr_list, vnode_t** ppv_start_node);
 status_t vptr_pop_end(vptr_list_t* pvptr_list, vnode_t** ppv_end_node);
-static vptr_node* vptr_get_node(vnode_t* v);
+static vptr_node_t* vptr_get_node(vnode_t* v);
 
 /* vertical node pointer list auxillary functions */
 static void vptr_generic_insert(vptr_node_t* p_beg, vptr_node_t* p_mid, vptr_node_t* p_end);
