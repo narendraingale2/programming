@@ -69,6 +69,8 @@ int main(int argc, char* argv[])
     status = read_mesh_file(argv[1], p_face_vec);
     assert(status == SUCCESS);
     show_face_vector(p_face_vec);
+    printf("Destroying vector ...");
+    destroy_face_vector(&p_face_vec);
 }
 
 
@@ -220,10 +222,14 @@ int destroy_face_vector(face_vector_t** pp_vec)
 {
     int i;
     face_vector_t* p_vec = *pp_vec;
+    point3d_vector_t* p_point3d_vec = NULL;
     for(i=0;i<p_vec->size; i++)
     {
         free(p_vec->p_arr[i]);
     }
+    p_point3d_vec = p_vec->p_point3d_vec;
+    destroy_point3d_vector(&p_point3d_vec);
+    p_vec->p_point3d_vec = NULL;
     free(p_vec);
     pp_vec = NULL;
     return(SUCCESS);

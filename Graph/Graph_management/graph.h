@@ -82,7 +82,7 @@ struct graph
 
 graph_t* create_graph(void);
 status_t add_vertex(graph_t* g, vertex_t v);
-status_t add_edge(graph_t* g, vertex_t v_start, vertex_t v_end);
+status_t add_edge(graph_t* g, vertex_t v_start, vertex_t v_end,double w);
 status_t remove_vertex(graph_t* g, vertex_t v);
 status_t remove_edge(graph_t* g, vertex_t v_start, vertex_t v_end);
 void print_graph(graph_t* g, const char* msg);

@@ -50,7 +50,7 @@ status_t add_edge(graph_t* g, vertex_t v_start, vertex_t v_end, double w)
     ph_start_end = h_search_node(pv_end->ph_adj_list, v_start);
     ph_end_start = h_search_node(pv_start->ph_adj_list, v_end);
 
-    if(ph_start_end == NULL && ph_end_start == NULL)
+    if(ph_start_end != NULL && ph_end_start != NULL)
         return(G_EDGE_EXIST);
 
     if((ph_start_end != NULL) ^ (ph_end_start != NULL))
@@ -58,15 +58,117 @@ status_t add_edge(graph_t* g, vertex_t v_start, vertex_t v_end, double w)
     
     h_insert_end(pv_start->ph_adj_list, pv_end, w);
     h_insert_end(pv_end->ph_adj_list, pv_start, w);
+    g->nr_edges += 1;
     
     return(SUCCESS);
 }
 
-status_t remove_vertex(graph_t* g, vertex_t v);
-status_t remove_edge(graph_t* g, vertex_t v_start, vertex_t v_end);
-void print_graph(graph_t* g, const char* msg);
+status_t remove_vertex(graph_t* g, vertex_t v)
+{
+    vnode_t* p_vdelete_node = NULL;
+    hlist_t* p_hlist = NULL;
+    hnode_t* p_hrun = NULL;
+    hnode_t* p_hrun_next = NULL;
+    hnode_t* p_hdelete_node = NULL;
+    vnode_t* p_vnode_search = NULL;
+
+    p_vdelete_node = v_search_node(g->v_list, v);
+    if(p_vdelete_node == NULL)
+        return(G_INVALID_VERTEX);
+
+    p_hlist = p_vdelete_node ->ph_adj_list;
+
+    for(p_hrun = p_hlist->next; p_hrun != p_hlist; p_hrun = p_hrun_next)
+    {
+        p_hrun_next = p_hrun ->next;
+        p_vnode_search = p_hrun -> v;
+        p_hdelete_node = h_search_node(p_hrun->v->ph_adj_list, v);
+        h_generic_delete(p_hdelete_node);
+        free(p_hrun);
+        g->nr_edges -= 1;
+    }
+    free(p_hlist);
+    v_generic_delete(p_vdelete_node);
+    g->nr_vertex -= 1;
+    return(SUCCESS);
+}
+
+status_t remove_edge(graph_t* g, vertex_t v_start, vertex_t v_end)
+{
+    
+    vnode_t* pv_node_start;
+    vnode_t* pv_node_end;
+
+    hnode_t* ph_start_end_node;
+    hnode_t* ph_end_start_node;
+
+    pv_node_start = v_search_node(g->v_list, v_start);
+    
+    if(pv_node_start == NULL)
+        return(G_INVALID_VERTEX);
+
+    pv_node_end = v_search_node(g->v_list, v_end);
+    if(pv_node_end == NULL)
+        return(G_INVALID_VERTEX);
+
+    ph_start_end_node = h_search_node(pv_node_end->ph_adj_list, v_start);
+    ph_end_start_node = h_search_node(pv_node_start->ph_adj_list, v_end);
+
+    if(ph_start_end_node == NULL && ph_end_start_node == NULL)
+        return(G_INVALID_EDGE);
+    
+    if((ph_end_start_node != NULL) ^ (ph_start_end_node != NULL))
+        return(G_CORRUPTED);
+
+    
+    h_generic_delete(ph_end_start_node);
+    h_generic_delete(ph_start_end_node);
+    g->nr_edges -= 1;
+
+    return(SUCCESS);
+}
+
+void print_graph(graph_t* g, const char* msg)
+{
+    vnode_t* pv_run = NULL;
+    hnode_t* ph_run = NULL;
+
+    puts(msg);
+    printf("Number of vertices=%d and Number of edges = %d\n",g->nr_vertex, g->nr_edges);
+    for(pv_run = g->v_list->next; pv_run != g->v_list; pv_run = pv_run->next)
+    {
+        printf("[%d]\t->\t",pv_run->v);
+        for(ph_run = pv_run->ph_adj_list->next; ph_run != pv_run->ph_adj_list; ph_run = ph_run->next)
+        {
+           printf("[%d]<->", ph_run->v->v);
+        }
+        puts("[END]");
+    }
+}
 status_t destroy_graph(graph_t** pp_g)
 {
+
+    vnode_t* pv_run = NULL;
+    vnode_t* pv_run_next = NULL;
+    hnode_t* ph_run = NULL;
+    hnode_t* ph_run_next = NULL;
+    
+    for(pv_run = (*pp_g)->v_list->next; pv_run != (*pp_g)->v_list; pv_run = pv_run_next )
+    {
+        pv_run_next = pv_run -> next;
+        for(ph_run = pv_run->ph_adj_list->next; ph_run != pv_run->ph_adj_list; ph_run = ph_run_next)        
+        {
+            ph_run_next = ph_run -> next;
+            free(ph_run);
+        }
+        free(pv_run->ph_adj_list);
+        free(pv_run);
+    }
+    free((*pp_g)->v_list);
+  free(*pp_g);
+  pp_g = NULL;
+
+  return(SUCCESS);
 
 }
 
@@ -172,11 +274,12 @@ static hnode_t* h_search_node(hlist_t* ph_list, vertex_t v)
     {
             if(ph_run->v->v == v)
             {
+                printf("Found ...\n");
                 return(ph_run);
             }
     }
 
-    return(ph_run);
+    return(NULL);
 }
 
 static hnode_t* h_get_node(vnode_t* v, double w)
