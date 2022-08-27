@@ -275,7 +275,6 @@ static hnode_t* h_search_node(hlist_t* ph_list, vertex_t v)
     {
             if(ph_run->pv_node->v == v)
             {
-                printf("Found ...\n");
                 return(ph_run);
             }
     }
