@@ -49,7 +49,7 @@ enum color{
 
 struct hnode
 {
-    vnode_t* v;
+    vnode_t* pv_node;
 
     double w;
     struct hnode* next;

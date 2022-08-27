@@ -81,8 +81,8 @@ status_t remove_vertex(graph_t* g, vertex_t v)
     for(p_hrun = p_hlist->next; p_hrun != p_hlist; p_hrun = p_hrun_next)
     {
         p_hrun_next = p_hrun ->next;
-        p_vnode_search = p_hrun -> v;
-        p_hdelete_node = h_search_node(p_hrun->v->ph_adj_list, v);
+        p_vnode_search = p_hrun -> pv_node;
+        p_hdelete_node = h_search_node(p_hrun->pv_node->ph_adj_list, v);
         h_generic_delete(p_hdelete_node);
         free(p_hrun);
         g->nr_edges -= 1;
@@ -140,7 +140,7 @@ void print_graph(graph_t* g, const char* msg)
         printf("[%d]\t->\t",pv_run->v);
         for(ph_run = pv_run->ph_adj_list->next; ph_run != pv_run->ph_adj_list; ph_run = ph_run->next)
         {
-           printf("[%d]<->", ph_run->v->v);
+           printf("[%d]<->", ph_run->pv_node->v);
         }
         puts("[END]");
     }
@@ -272,7 +272,7 @@ static hnode_t* h_search_node(hlist_t* ph_list, vertex_t v)
     hnode_t* ph_run = NULL;
     for(ph_run = ph_list->next; ph_run != ph_list; ph_run = ph_run -> next)
     {
-            if(ph_run->v->v == v)
+            if(ph_run->pv_node->v == v)
             {
                 printf("Found ...\n");
                 return(ph_run);
@@ -286,7 +286,7 @@ static hnode_t* h_get_node(vnode_t* v, double w)
 {
     hnode_t* p_new_node = NULL;
     p_new_node = (hnode_t*)xcalloc(1,sizeof(hnode_t));
-    p_new_node -> v = v;
+    p_new_node -> pv_node = v;
     p_new_node -> next = NULL;
     p_new_node -> prev = NULL;
     p_new_node -> w = w;
