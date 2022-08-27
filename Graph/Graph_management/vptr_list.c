@@ -166,3 +166,77 @@ status_t vptr_destroy_stack(vptr_stack_t** pp_vptr_stack)
 {
     return vptr_destroy_list(pp_vptr_stack);
 }
+
+/* vertical pointer queue interface routines */
+vptr_queue_t* vptr_create_queue(void)
+{
+    return(create_vptr_list());
+}
+
+status_t vptr_enqueue(vptr_queue_t* p_vptr_queue, vnode_t* pv_new_node)
+{
+    return(vptr_push_end(p_vptr_queue,pv_new_node));
+}
+
+status_t vptr_dequeue(vptr_queue_t* p_vptr_queue, vnode_t** ppv_delete_node)
+{
+    return(vptr_pop_start(p_vptr_queue, ppv_delete_node));
+}
+
+status_t vptr_is_queue_empty(vptr_queue_t* p_vptr_queue)
+{
+    return vptr_is_list_empty(p_vptr_queue);
+}
+
+status_t vptr_destroy_queue(vptr_queue_t** p_vptr_queue) 
+{
+    return vptr_destroy_list(p_vptr_queue);
+}
+
+
+/* vertical pointer priority queue interface routines */
+vptr_priority_queue_t* vptr_create_priority_queue(void)
+{
+    return(create_vptr_list());
+}
+
+status_t vptr_priority_enqueue(vptr_priority_queue_t* p_vptr_queue, vnode_t* pv_new_node)
+{
+    return(vptr_push_end(p_vptr_queue,pv_new_node));
+}
+
+status_t vptr_priority_dequeue_min(vptr_priority_queue_t* p_vptr_queue, vnode_t** ppv_delete_node)
+{
+   vptr_node_t* p_vptr_min_node = NULL;
+   vptr_node_t* p_vptr_run_node = NULL;
+
+   if(vptr_is_list_empty(p_vptr_queue) == TRUE)
+   {
+    *ppv_delete_node = NULL;
+    return(VPTR_QUEUE_EMPTY);
+   }
+   
+   p_vptr_min_node = p_vptr_queue->next;
+
+   for(p_vptr_run_node = p_vptr_queue->next; p_vptr_run_node != p_vptr_queue; p_vptr_run_node = p_vptr_run_node -> next)
+   {
+    if(p_vptr_run_node -> vnode_ptr -> priority_field < p_vptr_min_node->vnode_ptr->priority_field)
+    {
+        p_vptr_min_node = p_vptr_run_node;
+    }
+   } 
+
+   *ppv_delete_node = p_vptr_min_node ->vnode_ptr;
+   vptr_geneirc_delete(p_vptr_min_node);
+   return(SUCCESS);
+}
+
+status_t vptr_priority_is_queue_empty(vptr_priority_queue_t* p_vptr_queue)
+{
+    return vptr_is_list_empty(p_vptr_queue);
+}
+
+status_t vptr_destroy_priority_queue(vptr_priority_queue_t** p_vptr_queue)
+{
+    return vptr_destroy_list(p_vptr_queue);
+}

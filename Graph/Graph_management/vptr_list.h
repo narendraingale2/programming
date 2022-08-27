@@ -52,12 +52,12 @@ vptr_queue_t* vptr_create_queue(void);
 status_t vptr_enqueue(vptr_queue_t* p_vptr_queue, vnode_t* pv_new_node);
 status_t vptr_dequeue(vptr_queue_t* p_vptr_queue, vnode_t** ppv_delete_node);
 status_t vptr_is_queue_empty(vptr_queue_t* p_vptr_queue);
-status_t vptr_destroy_queue(vptr_queue_t* p_vptr_queue); 
+status_t vptr_destroy_queue(vptr_queue_t** p_vptr_queue); 
 
 /* vertical pointer priority queue interface routines */
 vptr_priority_queue_t* vptr_create_priority_queue(void);
 status_t vptr_priority_enqueue(vptr_priority_queue_t* p_vptr_queue, vnode_t* pv_new_node);
-status_t vptr_priority_dequeue(vptr_priority_queue_t* p_vptr_queue, vnode_t** ppv_delete_node);
+status_t vptr_priority_dequeue_min(vptr_priority_queue_t* p_vptr_queue, vnode_t** ppv_delete_node);
 status_t vptr_priority_is_queue_empty(vptr_priority_queue_t* p_vptr_queue);
-status_t vptr_destroy_priority_queue(vptr_priority_queue_t* p_vptr_queue); 
+status_t vptr_destroy_priority_queue(vptr_priority_queue_t** p_vptr_queue); 
 #endif
