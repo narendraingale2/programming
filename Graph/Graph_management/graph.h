@@ -35,12 +35,6 @@ typedef int status_t;
 typedef int vertex_t;
 typedef int Bool;
 
-typedef struct vptr_node vptr_node_t;
-typedef vptr_node_t vptr_list_t;
-typedef vptr_list_t vptr_queue_t;
-typedef vptr_list_t vptr_stack_t;
-typedef vptr_list_t vptr_priority_queue_t;
-
 enum color{
 	WHITE = 0, 
 	GRAY, 
@@ -126,37 +120,6 @@ static void h_generic_delete(hnode_t* h_delete_node);
 static hnode_t* h_search_node(hlist_t* ph_list, vertex_t v);
 static hnode_t* h_get_node(vnode_t* v, double w);
 
-/* vertical node pointer list management interface routines */
-vptr_list_t* vptr_create_list();
-status_t vptr_insert_end(vptr_list_t pvptr_list, vnode_t* pv_new_node);
-status_t vptr_insert_start(vptr_list_t pvptr_list, vnode_t* pv_new_node);
-status_t vptr_get_start(vptr_list_t* pvptr_list, vnode_t** ppv_start_node);
-status_t vptr_get_end(vptr_list_t* pvptr_list, vnode_t** ppv_end_node);
-status_t vptr_pop_start(vptr_list_t* pvptr_list, vnode_t** ppv_start_node);
-status_t vptr_pop_end(vptr_list_t* pvptr_list, vnode_t** ppv_end_node);
-static vptr_node_t* vptr_get_node(vnode_t* v);
-
-/* vertical node pointer list auxillary functions */
-static void vptr_generic_insert(vptr_node_t* p_beg, vptr_node_t* p_mid, vptr_node_t* p_end);
-static void vptr_generic_delete(vptr_node_t* p_delete_node);
-static vptr_node_t* vptr_get_node(vnode_t* pv_new_node);
-static vptr_node_t* vptr_search_node(vptr_list_t* p_vptr_list, vnode_t* pv);
-
-/* Stack management routines */
-vptr_stack_t* vptr_create_stack(void);
-status_t vptr_push(vptr_stack_t* p_vptr_stack, vnode_t* pv_new_node);
-status_t vptr_pop(vptr_stack_t* p_vptr_stack, vnode_t** ppv_node);
-status_t vptr_top(vptr_stack_t* p_vptr_stack, vnode_t** pp_vnode);
-Bool vptr_is_stack_empty(vptr_stack_t* pp_vptr_stack);
-status_t vptr_destroy_stack(vptr_stack_t** p_vptr_stack);
-
-/* Priority Queue of vertical node pointers */
-vptr_priority_queue_t* vptr_create_queue(void);
-status_t vptr_priority_enqueue(vptr_priority_queue_t* p_vptr_queue, vnode_t* pv_node);
-status_t vptr_priority_dequeue_min(vptr_priority_queue_t* p_vptr_queue, vnode_t** ppv_node);
-status_t vptr_priority_peek(vptr_priority_queue_t* p_vptr_queue, vnode_t** ppv_node);
-Bool vptr_is_queue_emptry(vptr_priority_queue_t* p_vptr_queue);
-status_t vptr_destroy_queue(vptr_priority_queue_t** pp_vptr_stack);
 
 /* auzxillary routines */
 
