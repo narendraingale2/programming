@@ -145,6 +145,7 @@ void print_graph(graph_t* g, const char* msg)
         puts("[END]");
     }
 }
+
 status_t destroy_graph(graph_t** pp_g)
 {
 
