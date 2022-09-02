@@ -2,7 +2,7 @@
 #define _VPTR_LIST_H
 #include<stdio.h>
 #include<stdlib.h>
-#include<graph.h>
+#include"graph.h"
 
 #define VPTR_LIST_EMPTY    7
 #define VPTR_QUEUE_EMPTY   VPTR_LIST_EMPTY

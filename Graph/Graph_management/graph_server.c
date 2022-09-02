@@ -252,6 +252,13 @@ status_t h_insert_end(hlist_t* pv_list, vnode_t* v, double w)
     return(SUCCESS);
 }
 
+void reset(graph_t* g)
+{
+    vnode_t* pv_run = NULL;
+    for(pv_run = g->v_list->next; pv_run != g->v_list->next; pv_run = pv_run->next )
+        pv_run->color = WHITE;
+}
+
 /* horizontal list management auxillary functions */
 static void h_generic_insert(hnode_t* ph_start, hnode_t* ph_mid, hnode_t* ph_end)
 {
@@ -305,4 +312,36 @@ void* xcalloc(size_t nr_elements, size_t size_per_element)
         exit(EXIT_FAILURE);
     }
     return(p);
+}
+
+
+void dfs(struct graph* g)
+{
+    vnode_t* pv_run = NULL;
+    reset(g);
+
+    printf("Starting DFS ....\n");
+    printf("[START]->");
+    for(pv_run = g->v_list->next; pv_run != g->v_list; pv_run = pv_run->next)
+    {
+        if(pv_run->color == WHITE)
+            dfs_visit(pv_run);
+    }
+    printf("[END]");
+}
+
+void dfs_visit(vnode_t* pv_u)
+{
+    hnode_t* ph_run = NULL;
+
+    printf("[%d]<->", pv_u->v);
+    pv_u->color = GRAY;
+
+    for(ph_run = pv_u->ph_adj_list->next; ph_run != pv_u->ph_adj_list; ph_run = ph_run->next)
+    {
+        if(ph_run->pv_node->color == WHITE)
+            dfs_visit(ph_run->pv_node);
+    }
+    pv_u->color = BLACK;
+
 }

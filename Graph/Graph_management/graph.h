@@ -83,10 +83,10 @@ void print_graph(graph_t* g, const char* msg);
 status_t destroy_graph(graph_t** pp_g);
 
 /* Graph- BFS and DFS  */
-void dfs(graph_t* g);
+void dfs();
+void dfs_visit(vnode_t* u);
 void bfs(graph_t* g, vertex_t s);
 
-static void dfs_visit(graph_t* g, vnode_t* pv_u);
 static void reset(graph_t* g);
 
 /* shortest path algorithms */

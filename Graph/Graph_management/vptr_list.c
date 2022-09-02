@@ -175,7 +175,7 @@ vptr_queue_t* vptr_create_queue(void)
 
 status_t vptr_enqueue(vptr_queue_t* p_vptr_queue, vnode_t* pv_new_node)
 {
-    return(vptr_push_end(p_vptr_queue,pv_new_node));
+    return(vptr_insert_end(p_vptr_queue,pv_new_node));
 }
 
 status_t vptr_dequeue(vptr_queue_t* p_vptr_queue, vnode_t** ppv_delete_node)
@@ -202,7 +202,7 @@ vptr_priority_queue_t* vptr_create_priority_queue(void)
 
 status_t vptr_priority_enqueue(vptr_priority_queue_t* p_vptr_queue, vnode_t* pv_new_node)
 {
-    return(vptr_push_end(p_vptr_queue,pv_new_node));
+    return(vptr_insert_end(p_vptr_queue,pv_new_node));
 }
 
 status_t vptr_priority_dequeue_min(vptr_priority_queue_t* p_vptr_queue, vnode_t** ppv_delete_node)
