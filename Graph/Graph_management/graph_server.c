@@ -3,6 +3,7 @@
 #include<stdlib.h>
 #include<math.h>
 #include"graph.h"
+#include"vptr_list.h"
 
 
 
@@ -327,7 +328,7 @@ void dfs(struct graph* g)
         if(pv_run->color == WHITE)
             dfs_visit(pv_run);
     }
-    printf("[END]");
+    printf("[END]\n");
 }
 
 void dfs_visit(vnode_t* pv_u)
@@ -344,4 +345,44 @@ void dfs_visit(vnode_t* pv_u)
     }
     pv_u->color = BLACK;
 
+}
+
+int bfs(graph_t* g, vertex_t s)
+{
+    vnode_t* pv_run = NULL;
+    hnode_t* ph_run = NULL;
+    vptr_queue_t* p_queue = NULL;
+    status_t status = 0;
+
+    reset(g);
+
+    p_queue = vptr_create_queue();
+    pv_run = v_search_node(g->v_list, s);
+    pv_run->color = GRAY;
+    if(pv_run == NULL)
+        return(G_INVALID_VERTEX);
+    status = vptr_enqueue(p_queue,pv_run);
+    assert(status == SUCCESS);
+    status = vptr_is_queue_empty(p_queue);
+    printf("[START]<->");
+    while (vptr_is_queue_empty(p_queue) != TRUE)
+    {
+    
+       pv_run = NULL;
+       status = vptr_dequeue(p_queue,&pv_run);
+       assert(status == SUCCESS);
+       
+       printf("[%d]<->", pv_run->v);
+       for(ph_run = pv_run->ph_adj_list->next; ph_run != pv_run->ph_adj_list; ph_run = ph_run->next)
+       {
+        if(ph_run->pv_node->color == WHITE)
+        {
+            ph_run->pv_node->color = GRAY;
+            status = vptr_enqueue(p_queue, ph_run->pv_node);
+            assert(status == SUCCESS);
+        }
+       }
+    }
+    free(p_queue);
+    printf("[END]\n");
 }

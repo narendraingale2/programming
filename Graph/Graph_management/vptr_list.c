@@ -185,7 +185,7 @@ status_t vptr_dequeue(vptr_queue_t* p_vptr_queue, vnode_t** ppv_delete_node)
 
 status_t vptr_is_queue_empty(vptr_queue_t* p_vptr_queue)
 {
-    return vptr_is_list_empty(p_vptr_queue);
+    return(vptr_is_list_empty(p_vptr_queue));
 }
 
 status_t vptr_destroy_queue(vptr_queue_t** p_vptr_queue) 

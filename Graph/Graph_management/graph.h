@@ -85,7 +85,7 @@ status_t destroy_graph(graph_t** pp_g);
 /* Graph- BFS and DFS  */
 void dfs();
 void dfs_visit(vnode_t* u);
-void bfs(graph_t* g, vertex_t s);
+int bfs(graph_t* g, vertex_t s);
 
 static void reset(graph_t* g);
 
