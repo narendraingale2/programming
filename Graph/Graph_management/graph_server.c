@@ -386,3 +386,8 @@ int bfs(graph_t* g, vertex_t s)
     free(p_queue);
     printf("[END]\n");
 }
+
+void dijkstra(graph_t* g, vertex_t s)
+{
+    printf("Working on dijkstra alog.........\n");
+}

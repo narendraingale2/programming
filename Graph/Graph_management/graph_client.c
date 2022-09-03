@@ -12,12 +12,14 @@ struct edge{
 void test_graph_management(void);
 void test_dfs(void);
 void test_bfs(void);
+void test_dijkstra(void);
 
 int main(void)
 {
     test_graph_management();
     test_dfs();
     test_bfs();
+    test_dijkstra();
     return(EXIT_SUCCESS);
 }
 
@@ -167,4 +169,43 @@ void test_bfs()
     bfs(g, 1);
     destroy_graph(&g);
     printf("======== BFS TESTED successfully =========\n");
+}
+
+void test_dijkstra()
+{
+    
+    graph_t* g = NULL;
+    int i;
+    vertex_t v;
+    int status;
+
+    struct edge E[] = 	{
+			{1, 6, 2.0}, {1, 2, 1.0}, {2, 7, 5.0}, {2, 3, 2.0}, 
+			{6, 7, 3.0}, {5, 7, 2.0}, {7, 3, 1.0}, {7, 8, 3.0}, 
+			{3, 8, 3.0}, {5, 8, 4.0}, {5, 4, 2.0}, {3, 4, 1.0} 
+		}; 
+    printf("========== Testing DFS ========================================\n");
+    g = create_graph(); 
+    printf("Graph created successfully.... \n");
+    printf("Adding vertices...\n");
+    for(v = 1; v <= 8; v++)
+    {
+        add_vertex(g,v);
+    }
+    printf("Added vertices. \n");
+
+    print_graph(g,"Graph after adding vertex");
+
+    printf("Adding edges....\n");
+    for(i=0; i<12; i++)
+    {
+        status = add_edge(g,E[i].v_start, E[i].v_end, E[i].w);
+        assert(status == SUCCESS);
+    }
+    printf("Edges added successfully.......\n");
+    print_graph(g, "printing graph after adding edges");
+    printf("======== Dijkstra algorithms shortest path ==============\n");
+    dijkstra(g, 1);
+    destroy_graph(&g);
+    printf("======== Dijkstra algorithm worked successfully =========\n");
 }
