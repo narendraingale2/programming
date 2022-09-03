@@ -206,6 +206,8 @@ void test_dijkstra()
     print_graph(g, "printing graph after adding edges");
     printf("======== Dijkstra algorithms shortest path ==============\n");
     dijkstra(g, 1);
+    printf("Dijkstra algo applied\n");
+    print_all_shortest_path(g);
     destroy_graph(&g);
     printf("======== Dijkstra algorithm worked successfully =========\n");
 }

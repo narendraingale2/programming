@@ -387,7 +387,87 @@ int bfs(graph_t* g, vertex_t s)
     printf("[END]\n");
 }
 
-void dijkstra(graph_t* g, vertex_t s)
+static void initialize_single_source(graph_t* g, vnode_t* s)
 {
-    printf("Working on dijkstra alog.........\n");
+    vnode_t* pv_run;
+    for (pv_run = g->v_list->next; pv_run != g->v_list; pv_run = pv_run -> next)
+    {
+        pv_run->priority_field = INFINITY;
+        pv_run->pv_pred = NULL;
+    }
+    s->priority_field = 0;
+       
+}
+
+static void relax(vnode_t* u, vnode_t* v, double w)
+{
+    if(v->priority_field > u->priority_field + w)
+    {
+        v->priority_field = u->priority_field + w;
+        v->pv_pred = u;
+    }
+}
+
+status_t dijkstra(graph_t* g, vertex_t s)
+{
+   vnode_t* pv_run = NULL;
+   hnode_t* ph_run = NULL;
+   vptr_priority_queue_t* p_priority_queue = NULL;
+
+   p_priority_queue = vptr_create_priority_queue();
+   
+   initialize_single_source(g,g->v_list->next);
+   
+   for(pv_run = g->v_list->next; pv_run != g->v_list; pv_run = pv_run->next)
+    vptr_priority_enqueue(p_priority_queue,pv_run);
+   
+   while (vptr_priority_is_queue_empty(p_priority_queue) != TRUE)
+   {
+    pv_run = NULL; 
+    vptr_priority_dequeue_min(p_priority_queue,&pv_run);
+    
+    for(ph_run = pv_run->ph_adj_list->next; ph_run != pv_run->ph_adj_list; ph_run = ph_run->next)
+        relax(pv_run, ph_run->pv_node, ph_run->w);
+   }
+
+   vptr_destroy_priority_queue(&p_priority_queue);
+   return(SUCCESS);
+}
+
+void print_shortest_path(graph_t *g, vnode_t* pv_node)
+{
+    vptr_stack_t* p_stack = NULL;
+    vnode_t* pv_poped_node = NULL;
+    vnode_t* pv_run = NULL;
+    double d;
+
+    p_stack = vptr_create_stack();
+    d = pv_node->priority_field;
+    pv_run = pv_node->pv_pred;
+    while (pv_run != NULL)
+    {
+        vptr_stack_push(p_stack, pv_run);
+        pv_run = pv_run->pv_pred;
+    }
+    printf("Shortest path to [%d]\n", pv_node->v);
+
+    while (vptr_is_stack_empty(p_stack) != TRUE)
+    {
+        pv_poped_node = NULL;
+        vptr_stack_pop(p_stack, &pv_poped_node);
+        assert(pv_poped_node != NULL);
+        printf("[%d]<->",pv_poped_node->v);
+    }
+    printf("[%d]<->",pv_node->v);
+    puts("[END]");
+    printf("[COST:%lf]\n", d);
+    vptr_destroy_stack(&p_stack);
+}
+
+void print_all_shortest_path(graph_t* g)
+{
+    vnode_t* pv_run = NULL;
+
+    for(pv_run = g->v_list->next; pv_run != g->v_list; pv_run = pv_run->next)
+        print_shortest_path(g,pv_run);
 }

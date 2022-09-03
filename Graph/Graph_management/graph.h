@@ -90,10 +90,13 @@ int bfs(graph_t* g, vertex_t s);
 static void reset(graph_t* g);
 
 /* shortest path algorithms */
-void dijkstra(graph_t* g, vertex_t s);
+status_t dijkstra(graph_t* g, vertex_t s);
 
 /* auxillary routine of dijekstra algo*/
 static void initialize_single_source(graph_t* g, vnode_t* pv_s);
+static void relax(vnode_t* u, vnode_t* v, double w);
+void print_shortest_path(graph_t *g, vnode_t* pv_node);
+void print_all_shortest_path(graph_t* g);
 
 /* Minimum spanning tree alogirithms */
 void prims(graph_t* g, vertex_t r);
