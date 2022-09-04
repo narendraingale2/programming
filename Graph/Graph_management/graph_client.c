@@ -184,7 +184,7 @@ void test_dijkstra()
 			{6, 7, 3.0}, {5, 7, 2.0}, {7, 3, 1.0}, {7, 8, 3.0}, 
 			{3, 8, 3.0}, {5, 8, 4.0}, {5, 4, 2.0}, {3, 4, 1.0} 
 		}; 
-    printf("========== Testing DFS ========================================\n");
+    printf("========== Testing Dijkestra ========================================\n");
     g = create_graph(); 
     printf("Graph created successfully.... \n");
     printf("Adding vertices...\n");
