@@ -65,7 +65,77 @@ status_t bst_insert(bst_t* p_bst, data_t new_element)
 
 status_t bst_remove(bst_t* p_bst, data_t r_data)
 {
+    bst_node_t* p_delete_node = NULL;
+    bst_node_t* w = NULL;
 
+
+    p_delete_node = search_node(p_bst,r_data);
+
+    if(p_delete_node == NULL)
+        return(TREE_DATA_NOT_FOUND);
+    
+
+    if(p_delete_node->left == NULL)
+    {
+        if(p_delete_node ->parent == NULL)
+            p_bst->p_root_node = p_delete_node->right;
+        
+        if(p_delete_node->parent->left == p_delete_node)
+            p_delete_node->parent->left = p_delete_node -> right;
+        else
+            p_delete_node->parent->right = p_delete_node -> right;
+        
+        if(p_delete_node ->right != NULL)
+            p_delete_node -> right -> parent = p_delete_node->parent;
+
+    }
+    else if(p_delete_node -> right == NULL)
+    {
+        if(p_delete_node -> parent == NULL)
+            p_bst->p_root_node = p_delete_node->left;
+        
+        if(p_delete_node->parent->left == p_delete_node)
+            p_delete_node->parent->left = p_delete_node -> left;
+        else
+            p_delete_node->parent->right = p_delete_node -> left;
+        
+        if(p_delete_node ->left != NULL)
+            p_delete_node -> left -> parent = p_delete_node->parent;
+    }
+    else
+    {
+        w = p_delete_node -> right;
+        while (w -> left != NULL)
+           w = w->left; 
+        
+        if(w != p_delete_node -> right)
+        {
+            w->parent->left = w->right;
+            if(w->right != NULL)
+                w->right->parent = w->parent;
+            
+            w->right = p_delete_node -> right;
+            w->right->parent = w;
+        }
+        if(p_delete_node ->parent == NULL)
+            p_bst->p_root_node = w;
+
+        if(p_delete_node == p_delete_node ->parent->left)
+            p_delete_node->parent->left = w;
+        else
+            p_delete_node->parent->right = w;
+        
+        w->parent = p_delete_node -> parent;
+        w->left = p_delete_node -> left;
+        w->left->parent = w;
+    }
+
+    p_bst->nr_nodes -= 1;
+    free(p_delete_node);
+    p_delete_node = NULL;
+
+    return(SUCCESS);
+        
 }
 
 status_t bst_search(bst_t* p_bst, data_t searh_data)
