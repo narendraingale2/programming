@@ -1,3 +1,5 @@
+#ifndef _BST_H
+#define _BST_H
 #include<stdio.h>
 
 typedef struct bst_node bst_node_t;
@@ -67,3 +69,4 @@ void destroy_node(bst_node_t* p_root_node);
 void preorder_node(bst_node_t* p_root_node);
 void inorder_node(bst_node_t* p_root_node);
 void postorder_node(bst_node_t* p_root_node);
+#endif
