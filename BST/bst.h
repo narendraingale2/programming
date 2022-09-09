@@ -64,3 +64,6 @@ void transplant(bst_t* p_bst, bst_node_t* u, bst_node_t* v);
 bst_node_t* get_bst_node(data_t data);
 bst_node_t* search_node(bst_t* p_bst, data_t search_data);
 void destroy_node(bst_node_t* p_root_node);
+void preorder_node(bst_node_t* p_root_node);
+void inorder_node(bst_node_t* p_root_node);
+void postorder_node(bst_node_t* p_root_node);

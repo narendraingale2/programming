@@ -105,6 +105,25 @@ status_t destroy_bst(bst_t** p_bst)
     p_bst = NULL;
 }
 
+/* in/pre/post order walks */
+void preorder_r(bst_t* p_bst)
+{
+    puts("Preorder Walk ->");
+    preorder_node(p_bst->p_root_node);
+}
+
+void postorder_r(bst_t* p_bst)
+{
+    puts("Postorder Walk ->");
+    postorder_node(p_bst->p_root_node);
+}
+
+void inorder_r(bst_t* p_bst)
+{
+    puts("inorder Walk ->");
+    inorder_node(p_bst->p_root_node);
+}
+
 bst_node_t* get_bst_node(data_t data)
 {
     bst_node_t* p_new_node = NULL;
@@ -144,4 +163,26 @@ void destroy_node(bst_node_t* p_root_node)
         destroy_node(p_root_node->right);
         free(p_root_node);
     }
+}
+
+void preorder_node(bst_node_t* p_root_node)
+{
+    printf("[%d]<->", p_root_node->data);
+    preorder_node(p_root_node->left);
+    preorder_node(p_root_node->right);
+}
+
+
+void inorder_node(bst_node_t* p_root_node)
+{
+    inorder_node(p_root_node->left);
+    printf("[%d]<->", p_root_node->data);
+    inorder_node(p_root_node->right);
+}
+
+void postorder_node(bst_node_t* p_root_node)
+{
+    postorder_node(p_root_node->left);
+    postorder_node(p_root_node->right);
+    printf("[%d]<->", p_root_node->data);
 }
