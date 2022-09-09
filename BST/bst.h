@@ -44,6 +44,11 @@ void preorder(bst_t* p_bst);
 void postorder(bst_t* p_bst);
 void inorder(bst_t* p_bst);
 
+/* in/pre/post order walks */
+void preorder_r(bst_t* p_bst);
+void postorder_r(bst_t* p_bst);
+void inorder_r(bst_t* p_bst);
+
 /* in/pre/post order predecessor */
 data_t bst_inorder_predecessor(bst_t* p_bst);
 data_t bst_postorder_predecessor(bst_t* p_bst);
@@ -56,4 +61,6 @@ data_t bst_preorder_successor(bst_t* p_bst);
 
 /* helper routines */
 void transplant(bst_t* p_bst, bst_node_t* u, bst_node_t* v);
-void get_bst_node(data_t data);
+bst_node_t* get_bst_node(data_t data);
+bst_node_t* search_node(bst_t* p_bst, data_t search_data);
+void destroy_node(bst_node_t* p_root_node);
