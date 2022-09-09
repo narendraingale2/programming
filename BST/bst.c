@@ -216,7 +216,7 @@ bst_node_t* search_node(bst_t* p_bst, data_t searh_data)
         if(p_run -> data == searh_data)
             return(p_run);
 
-        if(searh_data <= p_run)
+        if(searh_data <= p_run->data)
             p_run = p_run -> left;
         else
             p_run = p_run -> right;    

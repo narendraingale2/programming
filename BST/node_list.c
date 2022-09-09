@@ -6,7 +6,7 @@
 ptrbst_list_t* create_ptrbst_list(void)
 {
     ptrbst_list_t* p_list = NULL;
-    p_list = get_bst_node(-1);
+    p_list = ptrbst_get_node(NULL);
     p_list->next = p_list;
     p_list->prev = p_list;
 }
