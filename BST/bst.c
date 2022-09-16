@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"bst.h"
+#include"node_list.h"
 
 bst_t* create_bst(void)
 {
@@ -13,6 +14,7 @@ bst_t* create_bst(void)
     }
     p_bst->nr_nodes = 0;
     p_bst->p_root_node = NULL; 
+    return(p_bst);
 
 }
 
@@ -181,6 +183,7 @@ status_t destroy_bst(bst_t** p_bst)
     destroy_node((*p_bst)->p_root_node);
     free(*p_bst);
     *p_bst = NULL;
+    return(SUCCESS);
 }
 
 /* in/pre/post order walks */
@@ -213,6 +216,7 @@ bst_node_t* get_bst_node(data_t data)
     p_new_node->left = NULL;
     p_new_node->right = NULL;
     p_new_node->parent = NULL;
+    return p_new_node;
 }
 
 
@@ -275,4 +279,39 @@ void postorder_node(bst_node_t* p_root_node)
         postorder_node(p_root_node->right);
         printf("[%d]<->", p_root_node->data);
     }
+}
+/* in/pre/post order walks */
+void preorder(bst_t* p_bst)
+{
+
+}
+
+void postorder(bst_t* p_bst)
+{
+
+}
+
+void inorder(bst_t* p_bst)
+{
+    bst_node_t* p_run;
+    ptrbst_stack_t* p_stack;
+    p_stack = create_ptrbst_stack();
+
+    p_run = p_bst->p_root_node;
+
+    printf("[START]<->");
+    while (TRUE)
+    {
+        while (p_run != NULL)
+        {
+            ptrbst_stack_push(p_stack, p_run);
+            p_run = p_run -> left;
+        }
+        if(ptrbst_stack_pop(p_stack, &p_run) == STACK_EMPTY)
+            break;
+        
+        printf("[%d]<->", p_run->data);
+        p_run = p_run->right;
+    }
+    puts("[END]");
 }

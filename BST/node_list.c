@@ -9,6 +9,7 @@ ptrbst_list_t* create_ptrbst_list(void)
     p_list = ptrbst_get_node(NULL);
     p_list->next = p_list;
     p_list->prev = p_list;
+    return(p_list);
 }
 
 status_t ptrbst_insert_end(ptrbst_list_t* p_list, bst_node_t* p_node)
@@ -97,6 +98,7 @@ status_t ptrbst_stack_is_empty(ptrbst_stack_t* p_stack)
 status_t destroy_ptrbst_stack(ptrbst_stack_t** p_stack)
 {
     destroy_ptrbst_list(p_stack);
+    return(SUCCESS);
 }
 
 void* xcalloc(size_t nr_elements, size_t size_per_element)

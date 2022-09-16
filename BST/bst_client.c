@@ -90,9 +90,11 @@ int main(void)
         assert(status == SUCCESS);
     }
     printf("Added back all the elements. Trying destroy now \n");
+    printf("Calling non recursive in order walk\n");
+    inorder(p_bst);
     destroy_bst(&p_bst);
     assert(p_bst == NULL);
-    printf("Tree has been destroyed successfully");
+    printf("Tree has been destroyed successfully\n");
     printf("Testcase implemented .......\n");
     return(SUCCESS);
 
