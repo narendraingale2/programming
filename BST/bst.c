@@ -26,6 +26,7 @@ status_t bst_insert(bst_t* p_bst, data_t new_element)
     p_new_node = get_bst_node(new_element);
     if(p_run == NULL)
     {
+        printf("Inserted root node\n");
         p_bst ->p_root_node = p_new_node;
         p_bst -> nr_nodes += 1;
         return(SUCCESS);
@@ -151,6 +152,9 @@ status_t bst_is_empty(bst_t* p_bst)
 data_t bst_max(bst_t* p_bst)
 {
     bst_node_t* p_run = NULL;
+    if(bst_is_empty(p_bst) == TRUE)
+        return TREE_EMPTY;
+
     for(p_run = p_bst ->p_root_node; p_run->right != NULL; p_run = p_run->right);
 
     return(p_run->data);
@@ -159,6 +163,9 @@ data_t bst_max(bst_t* p_bst)
 data_t bst_min(bst_t* p_bst)
 {
     bst_node_t* p_run = NULL;
+    if(bst_is_empty(p_bst) == TRUE)
+        return TREE_EMPTY;
+
     for(p_run = p_bst ->p_root_node; p_run->left != NULL; p_run = p_run->left);
 
     return(p_run->data);
@@ -180,18 +187,21 @@ void preorder_r(bst_t* p_bst)
 {
     puts("Preorder Walk ->");
     preorder_node(p_bst->p_root_node);
+    puts("[END]");
 }
 
 void postorder_r(bst_t* p_bst)
 {
     puts("Postorder Walk ->");
     postorder_node(p_bst->p_root_node);
+    puts("[END]");
 }
 
 void inorder_r(bst_t* p_bst)
 {
     puts("inorder Walk ->");
     inorder_node(p_bst->p_root_node);
+    puts("[END]");
 }
 
 bst_node_t* get_bst_node(data_t data)
@@ -237,22 +247,31 @@ void destroy_node(bst_node_t* p_root_node)
 
 void preorder_node(bst_node_t* p_root_node)
 {
-    printf("[%d]<->", p_root_node->data);
-    preorder_node(p_root_node->left);
-    preorder_node(p_root_node->right);
+    if(p_root_node != NULL)
+    {
+        printf("[%d]<->", p_root_node->data);
+        preorder_node(p_root_node->left);
+        preorder_node(p_root_node->right);
+    }
 }
 
 
 void inorder_node(bst_node_t* p_root_node)
 {
-    inorder_node(p_root_node->left);
-    printf("[%d]<->", p_root_node->data);
-    inorder_node(p_root_node->right);
+    if(p_root_node != NULL)
+    {
+        inorder_node(p_root_node->left);
+        printf("[%d]<->", p_root_node->data);
+        inorder_node(p_root_node->right);
+    }
 }
 
 void postorder_node(bst_node_t* p_root_node)
 {
-    postorder_node(p_root_node->left);
-    postorder_node(p_root_node->right);
-    printf("[%d]<->", p_root_node->data);
+    if(p_root_node != NULL)
+    {
+        postorder_node(p_root_node->left);
+        postorder_node(p_root_node->right);
+        printf("[%d]<->", p_root_node->data);
+    }
 }

@@ -12,7 +12,7 @@ int main(void)
     int status;
     
     p_bst = create_bst();
-
+    printf("Tree has been created successfully\n");
     status = bst_max(p_bst);
 
     if(status == TREE_EMPTY)
@@ -27,7 +27,16 @@ int main(void)
         status = bst_insert(p_bst, data[i]);
         assert(status == SUCCESS);
     }
-    printf("Testcase implemented .......");
+
+    status = bst_max(p_bst);
+    printf("Max = %d\n", status);
+
+    status =  bst_min(p_bst);
+    printf("Min = %d\n", status);
+    preorder_r(p_bst);
+    postorder_r(p_bst);
+    inorder_r(p_bst);
+    printf("Testcase implemented .......\n");
     return(SUCCESS);
 
 }

@@ -17,11 +17,12 @@ status_t ptrbst_insert_end(ptrbst_list_t* p_list, bst_node_t* p_node)
     return(SUCCESS);
 }
 
-status_t ptrbst_remove_end(ptrbst_list_t* p_list, ptrbst_node_t** p_node)
+status_t ptrbst_remove_end(ptrbst_list_t* p_list, bst_node_t** p_node)
 {
     if(ptrbst_list_is_empty(p_list) == TRUE)
         return(LIST_EMPTY); 
         
+    *p_node = p_list->prev->p_bst;
     ptrbst_generic_delete_node(p_list->prev);
     return(SUCCESS);
 }
@@ -85,9 +86,9 @@ status_t ptrbst_stack_push(ptrbst_stack_t* p_stack, bst_node_t* p_bst_node)
     return(ptrbst_insert_end(p_stack, p_bst_node));
 }
 
-status_t ptrbst_stack_pop(ptrbst_stack_t* p_stack, bst_node_t* p_bst_node)
+status_t ptrbst_stack_pop(ptrbst_stack_t* p_stack, bst_node_t** p_bst_node)
 {
-   return(ptrbst_remove_end(p_stack,&p_bst_node)); 
+   return(ptrbst_remove_end(p_stack, p_bst_node)); 
 }
 status_t ptrbst_stack_is_empty(ptrbst_stack_t* p_stack)
 {
