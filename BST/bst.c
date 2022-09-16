@@ -75,13 +75,12 @@ status_t bst_remove(bst_t* p_bst, data_t r_data)
     if(p_delete_node == NULL)
         return(TREE_DATA_NOT_FOUND);
     
-
     if(p_delete_node->left == NULL)
     {
         if(p_delete_node ->parent == NULL)
             p_bst->p_root_node = p_delete_node->right;
         
-        if(p_delete_node->parent->left == p_delete_node)
+        else if(p_delete_node->parent->left == p_delete_node)
             p_delete_node->parent->left = p_delete_node -> right;
         else
             p_delete_node->parent->right = p_delete_node -> right;
@@ -95,7 +94,7 @@ status_t bst_remove(bst_t* p_bst, data_t r_data)
         if(p_delete_node -> parent == NULL)
             p_bst->p_root_node = p_delete_node->left;
         
-        if(p_delete_node->parent->left == p_delete_node)
+        else if(p_delete_node->parent->left == p_delete_node)
             p_delete_node->parent->left = p_delete_node -> left;
         else
             p_delete_node->parent->right = p_delete_node -> left;
@@ -120,8 +119,7 @@ status_t bst_remove(bst_t* p_bst, data_t r_data)
         }
         if(p_delete_node ->parent == NULL)
             p_bst->p_root_node = w;
-
-        if(p_delete_node == p_delete_node ->parent->left)
+        else if(p_delete_node == p_delete_node ->parent->left)
             p_delete_node->parent->left = w;
         else
             p_delete_node->parent->right = w;
@@ -141,7 +139,10 @@ status_t bst_remove(bst_t* p_bst, data_t r_data)
 
 status_t bst_search(bst_t* p_bst, data_t searh_data)
 {
-    return(search_node(p_bst,searh_data) != NULL);
+    if(search_node(p_bst,searh_data) != NULL)
+        return SUCCESS;
+    
+    return TREE_DATA_NOT_FOUND;
 }
 
 status_t bst_is_empty(bst_t* p_bst)
@@ -179,7 +180,7 @@ status_t destroy_bst(bst_t** p_bst)
 {
     destroy_node((*p_bst)->p_root_node);
     free(*p_bst);
-    p_bst = NULL;
+    *p_bst = NULL;
 }
 
 /* in/pre/post order walks */

@@ -10,6 +10,7 @@ int main(void)
     int data_np[] = {-100, 2004, 3453, -45635, 3456, 363535};
     int i;
     int status;
+    unsigned long long int len = 0;
     
     p_bst = create_bst();
     printf("Tree has been created successfully\n");
@@ -36,6 +37,62 @@ int main(void)
     preorder_r(p_bst);
     postorder_r(p_bst);
     inorder_r(p_bst);
+
+    status = bst_search(p_bst, 85);
+    assert(status == SUCCESS);
+    status = bst_search(p_bst, 80);
+    assert(status == TREE_DATA_NOT_FOUND);
+
+    status = bst_remove(p_bst, 85);
+    assert(status == SUCCESS);
+    status = bst_search(p_bst, 85);
+    assert(status == TREE_DATA_NOT_FOUND);
+    inorder_r(p_bst);
+
+    status = bst_insert(p_bst, 3);
+    assert(status == SUCCESS);
+    status = bst_search(p_bst, 3);
+    assert(status == SUCCESS);
+    inorder_r(p_bst);
+
+    len = bst_get_nr_elements(p_bst);
+    printf("Length of tree is %llu \n", len);
+
+    status = bst_remove(p_bst, 3);
+    assert(status == SUCCESS);
+    status = bst_search(p_bst, 3);
+    assert(status == TREE_DATA_NOT_FOUND);
+    printf("Removal of 3 test case successful\n");
+    
+    status = bst_insert(p_bst, 85);
+    assert(status == SUCCESS);
+    status = bst_search(p_bst, 85);
+    assert(status == SUCCESS);
+    printf("Addition of 85 test case successful\n");
+
+    for(i=0; i<sizeof(data)/sizeof(int); i++)
+    {
+        status = bst_remove(p_bst, data[i]);
+        assert(status == SUCCESS);
+    }
+    printf("Remove all test case successful\n");
+    status = bst_is_empty(p_bst);
+    assert(status == TRUE);
+    printf("Isempty test case successful\n");
+
+    len = bst_get_nr_elements(p_bst);
+    assert(len == 0);
+    printf("Length test case successful\n");
+
+    for(i=0; i<sizeof(data)/sizeof(int); i++)
+    {
+        status = bst_insert(p_bst, data[i]);
+        assert(status == SUCCESS);
+    }
+    printf("Added back all the elements. Trying destroy now \n");
+    destroy_bst(&p_bst);
+    assert(p_bst == NULL);
+    printf("Tree has been destroyed successfully");
     printf("Testcase implemented .......\n");
     return(SUCCESS);
 
