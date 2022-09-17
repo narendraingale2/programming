@@ -61,14 +61,14 @@ void postorder_r(bst_t* p_bst);
 void inorder_r(bst_t* p_bst);
 
 /* in/pre/post order predecessor */
-data_t bst_inorder_predecessor(bst_t* p_bst);
-data_t bst_postorder_predecessor(bst_t* p_bst);
-data_t bst_preorder_predecessor(bst_t* p_bst);
+data_t bst_inorder_predecessor(bst_t* p_bst, data_t ext_data, int* p_succ_data);
+data_t bst_postorder_predecessor(bst_t* p_bst, data_t ext_data, int* p_succ_data);
+data_t bst_preorder_predecessor(bst_t* p_bst, data_t ext_data, int* p_succ_data);
 
 /* in/pre/post order successor */
-data_t bst_inorder_successor(bst_t* p_bst);
-data_t bst_postorder_successor(bst_t* p_bst);
-data_t bst_preorder_successor(bst_t* p_bst);
+data_t bst_inorder_successor(bst_t* p_bst, data_t ext_data, int* p_succ_data);
+data_t bst_postorder_successor(bst_t* p_bst, data_t ext_data, int* p_succ_data);
+data_t bst_preorder_successor(bst_t* p_bst, data_t ext_data, int* p_succ_data);
 
 
 /* helper routines */
@@ -80,4 +80,14 @@ void preorder_node(bst_node_t* p_root_node);
 void inorder_node(bst_node_t* p_root_node);
 void postorder_node(bst_node_t* p_root_node);
 void reset_color(bst_node_t* p_root_node);
+
+/* in/pre/post order predecessor */
+bst_node_t* inorder_predecessor(bst_node_t* p_node);
+bst_node_t* postorder_predecessor(bst_node_t* p_node);
+bst_node_t* preorder_predecessor(bst_node_t* p_node);
+
+/* in/pre/post order successor */
+bst_node_t* inorder_successor(bst_node_t* p_node);
+bst_node_t* postorder_successor(bst_node_t* p_node);
+bst_node_t* preorder_successor(bst_node_t* p_node);
 #endif

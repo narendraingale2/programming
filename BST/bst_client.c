@@ -9,7 +9,7 @@ int main(void)
     int data[] = {100, 150, 75, 200, 125, 85, 50, 65, 130};
     int data_np[] = {-100, 2004, 3453, -45635, 3456, 363535};
     int i;
-    int status;
+    int status, pred_data, succ_data;
     unsigned long long int len = 0;
     
     p_bst = create_bst();
@@ -98,6 +98,62 @@ int main(void)
     printf("Calling post-order walk\n");
     postorder(p_bst);
     postorder_r(p_bst);
+    for(i=0; i<sizeof(data)/sizeof(int); i++)
+    {
+        pred_data = 0;
+        status = bst_inorder_predecessor(p_bst,data[i], &pred_data);
+        if(status == SUCCESS)
+            printf("In order predecessor of %d is %d\n", data[i], pred_data);
+        else
+            printf("%d has no inorder predecessor\n", data[i]);
+    }
+
+    for(i=0; i<sizeof(data)/sizeof(int); i++)
+    {
+        status = bst_inorder_successor(p_bst,data[i], &succ_data);
+        if(status == SUCCESS)
+            printf("In order successor of %d is %d\n", data[i], succ_data);
+        else
+            printf("%d has no inorder successor\n", data[i]);
+    }
+
+    for(i=0; i<sizeof(data)/sizeof(int); i++)
+    {
+        pred_data = 0;
+        status = bst_preorder_predecessor(p_bst,data[i], &pred_data);
+        if(status == SUCCESS)
+            printf("Pre-order predecessor of %d is %d\n", data[i], pred_data);
+        else
+            printf("%d has no pre-order predecessor\n", data[i]);
+    }
+
+    for(i=0; i<sizeof(data)/sizeof(int); i++)
+    {
+        status = bst_preorder_successor(p_bst,data[i], &succ_data);
+        if(status == SUCCESS)
+            printf("Pre-order successor of %d is %d\n", data[i], succ_data);
+        else
+            printf("%d has no pre-order successor\n", data[i]);
+    }
+
+    for(i=0; i<sizeof(data)/sizeof(int); i++)
+    {
+        pred_data = 0;
+        status = bst_postorder_predecessor(p_bst,data[i], &pred_data);
+        if(status == SUCCESS)
+            printf("Post-order predecessor of %d is %d\n", data[i], pred_data);
+        else
+            printf("%d has no pre-order predecessor\n", data[i]);
+    }
+
+    for(i=0; i<sizeof(data)/sizeof(int); i++)
+    {
+        status = bst_postorder_successor(p_bst,data[i], &succ_data);
+        if(status == SUCCESS)
+            printf("Post-order successor of %d is %d\n", data[i], succ_data);
+        else
+            printf("%d has no post-order successor\n", data[i]);
+    }
     destroy_bst(&p_bst);
     assert(p_bst == NULL);
     printf("Tree has been destroyed successfully\n");

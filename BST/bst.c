@@ -381,3 +381,297 @@ void inorder(bst_t* p_bst)
     }
     puts("[END]");
 }
+
+
+data_t bst_inorder_predecessor(bst_t* p_bst, data_t ext_data, int* p_pred_data)
+{
+    bst_node_t* p_pred_node = NULL;
+    bst_node_t* p_node = NULL;
+
+    p_node = search_node(p_bst, ext_data);
+    if(p_node == NULL)
+        return TREE_DATA_NOT_FOUND;
+
+    p_pred_node = inorder_predecessor(p_node);
+    if(p_pred_node == NULL)
+        return(TREE_NO_PREDECESSOR);
+    
+    *p_pred_data = p_pred_node->data;
+    return(SUCCESS);
+}
+
+bst_node_t* inorder_predecessor(bst_node_t* p_node)
+{
+    bst_node_t* p_run;
+    bst_node_t* x;
+    bst_node_t* y;
+
+    p_run = p_node;
+    if(p_run->left != NULL)
+    {
+        p_run = p_node->left;
+        while (p_run->right != NULL)
+            p_run = p_run ->right;
+        
+        return(p_run);
+    }
+    else
+    {
+        x = p_run;
+        y = p_run->parent;
+        while (y != NULL && x == y->left)
+        {
+           x = y;
+           y = y->parent; 
+        }
+       return(y); 
+    }
+}
+
+data_t bst_inorder_successor(bst_t* p_bst, data_t ext_data, int* p_succ_data)
+{
+    bst_node_t* p_succ_node = NULL;
+    bst_node_t* p_node = NULL;
+
+    p_node = search_node(p_bst, ext_data);
+    if(p_node == NULL)
+        return TREE_DATA_NOT_FOUND;
+
+    p_succ_node = inorder_successor(p_node);
+    if(p_succ_node == NULL)
+        return(TREE_NO_PREDECESSOR);
+    
+    *p_succ_data = p_succ_node->data;
+    return(SUCCESS);
+}
+
+bst_node_t* inorder_successor(bst_node_t* p_node)
+{
+    bst_node_t* p_run;
+    bst_node_t* x;
+    bst_node_t* y;
+
+    p_run = p_node;
+    if(p_run->right != NULL)
+    {
+        p_run = p_node->right;
+        while (p_run->left != NULL)
+            p_run = p_run ->left;
+        
+        return(p_run);
+    }
+    else
+    {
+        x = p_run;
+        y = p_run->parent;
+        while (y != NULL && x == y->right)
+        {
+           x = y;
+           y = y->parent; 
+        }
+       return(y); 
+    }
+}
+
+int bst_postorder_predecessor(struct bst* p_bst, int ext_data, int* p_pred_data)
+{
+
+  struct bst_node* p_ext_node = NULL;
+  struct bst_node* p_pred_node = NULL;
+
+  p_ext_node = search_node(p_bst, ext_data);
+  
+  if(p_ext_node == NULL)
+    return(TREE_DATA_NOT_FOUND);
+  
+  p_pred_node = postorder_predecessor(p_ext_node);
+  
+  if (p_pred_node == NULL)
+    return(TREE_NO_PREDECESSOR);
+  *p_pred_data = p_pred_node->data;
+  return(SUCCESS);
+}
+
+struct bst_node* postorder_predecessor(struct bst_node* p_node)
+{
+  struct bst_node* x;
+  struct bst_node* y;
+  
+  if(p_node->right != NULL) // If it has right child then right node is predecessor. 
+    return p_node->right;
+  
+  if(p_node ->left != NULL && p_node->right == NULL) // If it's right is NULL and has left child then left is predecessor
+    return p_node->left;
+  /* If it is right child of its parent then its left sibling is prececessor. 
+  */
+  if(p_node->parent->right == p_node && p_node->parent->left != NULL) 
+    return p_node->parent->left;
+  /*
+  Go uptill you find parent who has left subtree and y is right child of x
+  */
+  x = p_node;
+  y = p_node->parent;
+  while(y!=NULL)
+  {
+     if(y->left != NULL && x == y->right)
+        return y->left;
+      
+      x = y;
+      y = y -> parent;
+  }
+  return NULL; 
+}
+
+int bst_preorder_successor(struct bst* p_bst, int ext_data, int* p_pred_data)
+{
+  struct bst_node* p_ext_node;
+  struct bst_node* p_succ_node;
+
+  if(p_bst->p_root_node == NULL)
+    return(TREE_EMPTY);
+  
+  p_ext_node = search_node(p_bst, ext_data);
+  if(p_ext_node == NULL)
+    return(TREE_DATA_NOT_FOUND);
+
+  p_succ_node = preorder_successor(p_ext_node);
+  
+  if(p_succ_node == NULL)
+    return(TREE_NO_SUCCESSOR);
+
+  *p_pred_data = p_succ_node->data;
+  
+  return(SUCCESS);
+
+}
+
+struct bst_node* preorder_successor(struct bst_node* p_node)
+{
+  struct bst_node* x;
+  struct bst_node* y;
+
+  if(p_node->left != NULL) // If it has left child then left child is successor
+    return(p_node->left);
+  else if(p_node->left == NULL && p_node -> right != NULL) // If it do not have left child then right node is successor
+    return p_node->right;
+  else
+  {
+    /*
+    This will be child node. 
+    Go level up until you dont find parent who has right child. And x is left node
+    You should be at step where y-> right should not be null and x is left child of y.
+    */
+    x = p_node;
+    y = p_node->parent;
+    while(y!=NULL)
+    {
+      if(y->right != NULL && x == y->left)
+        return y->right;
+      
+      x = y;
+      y = y -> parent;
+    } 
+  }
+}
+
+int bst_preorder_predecessor(struct bst* p_bst, int ext_data, int* p_pred_data)
+{
+  struct bst_node* p_ext_node = NULL;
+  struct bst_node* p_pred_node = NULL;
+
+  p_ext_node = search_node(p_bst, ext_data);
+  
+  if(p_ext_node == NULL)
+    return(TREE_DATA_NOT_FOUND);
+  
+  p_pred_node = preorder_predecessor(p_ext_node);
+  
+  if (p_pred_node == NULL)
+    return(TREE_NO_PREDECESSOR);
+  *p_pred_data = p_pred_node->data;
+  return(SUCCESS);
+
+
+}
+
+
+struct bst_node* preorder_predecessor(struct bst_node* p_node)
+{
+  struct bst_node* p_run;
+
+  if(p_node -> parent != NULL)// check if it is root node
+  {
+    if(p_node->parent->left == p_node) // If it is left child then parent is predecessor 
+      return p_node->parent;
+    if(p_node->parent->left == NULL) // Now it is right child. If its parent's left is NULL then parent is prececessor
+      return p_node->parent; 
+    /*
+    If it is left child and its parent's left subtree is present then
+    p_run is parent's left
+    step 1: Go to right most node of subtree. (p_run = p_run->right)
+    step 2: if right most node has left subtree then p_run = p_run -> left again GOTO step 1.
+
+    In short: Find out right most node who does not have left node. 
+    */
+
+    p_run = p_node -> parent -> left;
+    
+    while (p_run->right != NULL )
+    {
+      p_run = p_run -> right;
+      if(p_run->right == NULL && p_run->left != NULL)
+        p_run = p_run->left;
+    }
+        
+    return p_run;
+  }
+  
+}
+
+int bst_postorder_successor(struct bst* p_bst, int ext_data, int* p_pred_data)
+{
+  struct bst_node* p_ext_node;
+  struct bst_node* p_succ_node;
+
+  if(p_bst->p_root_node == NULL)
+    return(TREE_EMPTY);
+  
+  p_ext_node = search_node(p_bst, ext_data);
+  if(p_ext_node == NULL)
+    return(TREE_DATA_NOT_FOUND);
+
+  p_succ_node = postorder_successor(p_ext_node);
+  
+  if(p_succ_node == NULL)
+    return(TREE_NO_SUCCESSOR);
+
+  *p_pred_data = p_succ_node->data;
+  
+  return(SUCCESS);
+
+}
+
+bst_node_t* postorder_successor(bst_node_t* p_node)
+{
+    bst_node_t *x, *y;
+    bst_node_t* p_run;
+
+    p_run = p_node;
+    if(p_run->parent == NULL)
+        return(NULL);
+    
+    if(p_run->parent->right == p_run)
+        return(p_run->parent);
+    else
+    {
+        p_run = p_run->parent;
+        while (p_run ->right != NULL)
+        {
+            p_run = p_run -> right;
+            while (p_run->left != NULL)
+                p_run = p_run->left; 
+        }
+        
+        return p_run;
+    }
+}
