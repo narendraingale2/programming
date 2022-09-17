@@ -92,6 +92,12 @@ int main(void)
     printf("Added back all the elements. Trying destroy now \n");
     printf("Calling non recursive in order walk\n");
     inorder(p_bst);
+    printf("Calling pre-order walk\n");
+    preorder(p_bst);
+    preorder_r(p_bst);
+    printf("Calling post-order walk\n");
+    postorder(p_bst);
+    postorder_r(p_bst);
     destroy_bst(&p_bst);
     assert(p_bst == NULL);
     printf("Tree has been destroyed successfully\n");

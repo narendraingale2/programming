@@ -139,6 +139,11 @@ status_t bst_remove(bst_t* p_bst, data_t r_data)
         
 }
 
+void bst_reset(bst_t* p_bst)
+{
+    reset_color(p_bst->p_root_node);
+}
+
 status_t bst_search(bst_t* p_bst, data_t searh_data)
 {
     if(search_node(p_bst,searh_data) != NULL)
@@ -240,6 +245,15 @@ bst_node_t* search_node(bst_t* p_bst, data_t searh_data)
    return(NULL); 
 }
 
+void reset_color(bst_node_t* p_root_node)
+{
+    if(p_root_node != NULL)
+    {
+        reset_color(p_root_node->left);
+        reset_color(p_root_node->right);
+        p_root_node ->c = WHITE;
+    }
+}
 void destroy_node(bst_node_t* p_root_node)
 {
     if(p_root_node != NULL)
@@ -283,12 +297,64 @@ void postorder_node(bst_node_t* p_root_node)
 /* in/pre/post order walks */
 void preorder(bst_t* p_bst)
 {
+    bst_node_t* p_run;
+    ptrbst_stack_t* p_stack;
+    p_stack = create_ptrbst_stack();
+
+    p_run = p_bst->p_root_node;
+    if(p_run != NULL)
+        ptrbst_stack_push(p_stack, p_run);
+    
+    printf("[START]<->"); 
+    while (ptrbst_stack_is_empty(p_stack) != TRUE)
+    {
+        p_run = NULL;
+        ptrbst_stack_pop(p_stack, &p_run);
+        printf("[%d]<->", p_run->data);
+        
+        if(p_run->right != NULL)
+            ptrbst_stack_push(p_stack,p_run->right);
+        
+        if(p_run ->left != NULL)
+            ptrbst_stack_push(p_stack,p_run->left);
+        
+
+    }
+    puts("[END]");
 
 }
 
 void postorder(bst_t* p_bst)
 {
+    bst_node_t* p_run;
+    ptrbst_stack_t* p_stack;
+    p_stack = create_ptrbst_stack();
+    p_run = p_bst ->p_root_node;
+    printf("[START]<->");
 
+    while (p_run != NULL || ptrbst_stack_is_empty(p_stack) != TRUE)
+    {
+        if(p_run != NULL)
+        {
+            ptrbst_stack_push(p_stack, p_run);
+            p_run = p_run -> left;
+        }
+        else
+        {
+            ptrbst_stack_peek(p_stack, &p_run);
+            if(p_run ->right == NULL || p_run->right->c == GREY)
+            {
+                printf("[%d]<->",p_run->data);
+                p_run->c = GREY;
+                ptrbst_stack_pop(p_stack, &p_run);
+                p_run = NULL;
+            }
+            else
+                p_run = p_run->right;
+        }
+        
+    }
+    puts("[END]");
 }
 
 void inorder(bst_t* p_bst)

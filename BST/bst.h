@@ -16,12 +16,20 @@ typedef int status_t;
 #define TREE_NO_SUCCESSOR   4
 #define TREE_NO_PREDECESSOR 5
 
+enum color
+{
+    WHITE=0,
+    GREY,
+    BLACK
+};
+
 struct bst_node
 {
     int data;
     struct bst_node* left;
     struct bst_node* right;
     struct bst_node* parent; 
+    enum color c;
 };
 
 struct bst
@@ -38,6 +46,7 @@ status_t bst_search(bst_t* p_bst, data_t searh_data);
 status_t bst_is_empty(bst_t* p_bst);
 data_t bst_max(bst_t* p_bst);
 data_t bst_min(bst_t* p_bst);
+void bst_reset(bst_t* p_bst);
 unsigned long long int bst_get_nr_elements(bst_t* p_bst);
 status_t destroy_bst(bst_t** p_bst);
 
@@ -61,6 +70,7 @@ data_t bst_inorder_successor(bst_t* p_bst);
 data_t bst_postorder_successor(bst_t* p_bst);
 data_t bst_preorder_successor(bst_t* p_bst);
 
+
 /* helper routines */
 void transplant(bst_t* p_bst, bst_node_t* u, bst_node_t* v);
 bst_node_t* get_bst_node(data_t data);
@@ -69,4 +79,5 @@ void destroy_node(bst_node_t* p_root_node);
 void preorder_node(bst_node_t* p_root_node);
 void inorder_node(bst_node_t* p_root_node);
 void postorder_node(bst_node_t* p_root_node);
+void reset_color(bst_node_t* p_root_node);
 #endif
