@@ -22,14 +22,16 @@ enum color
 struct rb_node{
 
     int data;
+    enum color color;
+
     struct rbtree_node* left;
     struct rbtree_node* right;
     struct rbree_node* parent;
-    enum color color;
 };
 
 struct rb_tree{
-    struct rbtree_node* p_root;
+    struct rbtree_node* p_root_node;
+    struct rbtree_node* p_nil;
     unsigned long long nr_nodes;  
 };
 
@@ -44,5 +46,32 @@ void preorder_walk(rbtree_t* p_rbtree);
 void inorder_walk(rbtree_t* p_rbtree);
 void postorder_walk(rbtree_t* p_rbtree);
 
+status_t get_rb_max(rbtree_t* p_rbtree);
+status_t get_rb_min(rbtree_t* p_rbtree);
+
+status_t get_rb_inorder_successor(rbtree_t* p_rbtree, data_t search_data);
+status_t get_rb_inorder_predecessor(rbtree_t* p_rbtree, data_t search_data);
+
+/* Auxillary routines */
+rbnode_t* search_rb_node(rbtree_t* p_rbtree, data_t search_data);
+void rb_insert_fixup(rbtree_t* p_rbtree, rbnode_t* z);
+void rb_remove_fixup(rbtree_t* p_rbtree, rbnode_t* z);
+void rb_transplant(rbtree_t* p_rbtree, rbnode_t* u, rbnode_t* v);
+
+void left_rotate(rbtree_t* p_rbtree, rbnode_t* x);
+void right_roatate(rbtree_t* p_rbtree, rbnode_t* x);
+
+unsigned int get_height_level(rbtree_t* p_rbtree, rbnode_t* p_node);
+void preorder_node_level_walk(rbnode_t* p_rbnode, rbnode_t* nil);
+void inorder_node_level_walk(rbnode_t* p_rbnode, rbnode_t* nil);
+void postorder_node_level_walk(rbnode_t* p_rbnode, rbnode_t* nil);
+
+void destroy_node_level(rbnode_t* p_root_node, rbnode_t* nil);
+
+rbnode_t* get_rb_max_node(rbnode_t* p_rb_tree, rbnode_t* p_rbnode);
+rbnode_t* get_rb_min_node(rbnode_t* p_rb_tree, rbnode_t* p_rbnode);
+
+rbnode_t* get_rbnode(data_t new_data, rbnode_t* nil);
+void* xcalloc(size_t nr_elements, size_t size_per_element);
 
 #endif
