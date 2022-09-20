@@ -24,14 +24,14 @@ struct rb_node{
     int data;
     enum color color;
 
-    struct rbtree_node* left;
-    struct rbtree_node* right;
-    struct rbree_node* parent;
+    struct rb_node* left;
+    struct rb_node* right;
+    struct rb_node* parent;
 };
 
 struct rb_tree{
-    struct rbtree_node* p_root_node;
-    struct rbtree_node* p_nil;
+    struct rb_node* p_root_node;
+    struct rb_node* p_nil;
     unsigned long long nr_nodes;  
 };
 
@@ -40,7 +40,7 @@ status_t rbtree_insert(rbtree_t* p_rbtree, data_t data);
 status_t rbtree_delete(rbnode_t* p_rbtee, data_t data);
 status_t rbtree_find(rbnode_t* p_rbtree, data_t data);
 unsigned int rbtree_get_hight(rbnode_t* p_rbtree);
-status_t destroy_rbtree(rbtree_t** p_rbtree);
+status_t destroy_rbtree(rbtree_t** pp_rbtree);
 
 void preorder_walk(rbtree_t* p_rbtree);
 void inorder_walk(rbtree_t* p_rbtree);
