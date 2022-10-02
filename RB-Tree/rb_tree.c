@@ -123,7 +123,7 @@ status_t rbtree_delete(rbtree_t* p_rbtree, data_t data)
         }
         else
         {
-            y = get_rb_min(p_rbtree);
+            y = get_rb_min_node(p_rbtree, z->right);
             y_original_color = y->color;
             x = y->right;
             if(y -> parent == z)
