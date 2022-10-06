@@ -146,7 +146,29 @@ status_t rbtree_delete(rbtree_t* p_rbtree, data_t data)
         return(SUCCESS);
 }
 
-status_t get_rb_max(rbtree_t* p_rbtree)
+status_t get_rb_max(rbtree_t* p_rbtree, int* p_max)
+{
+    rbnode_t* p_max_node = NULL;
+
+    p_max_node = get_rb_max_node(p_rbtree);
+    if(p_max_node == NULL)
+        return RBTREE_DATA_NOT_FOUND;
+    *p_max = p_max_node ->data ; 
+    return SUCCESS;
+}
+
+status_t get_rb_min(rbtree_t* p_rbtree, int* p_min)
+{
+    rbnode_t* p_min_node = NULL;
+
+    p_min_node = get_rb_min_node(p_rbtree, p_rbtree->p_root_node);
+    if(p_min_node == NULL)
+        return RBTREE_DATA_NOT_FOUND;
+    *p_min = p_min_node ->data ; 
+    return SUCCESS;
+}
+
+rbnode_t* get_rb_max_node(rbtree_t* p_rbtree)
 {
     rbnode_t* p_run;
     p_run = p_rbtree -> p_root_node;
@@ -156,10 +178,10 @@ status_t get_rb_max(rbtree_t* p_rbtree)
     return(p_run); 
 }
 
-status_t get_rb_min(rbtree_t* p_rbtree)
+rbnode_t* get_rb_min_node(rbtree_t* p_rbtree, rbnode_t* p_root_node)
 {
     rbnode_t* p_run;
-    p_run = p_rbtree -> p_root_node;
+    p_run = p_root_node;
     while (p_run->left != p_rbtree->p_nil)
         p_run = p_run->left;
 
@@ -168,7 +190,7 @@ status_t get_rb_min(rbtree_t* p_rbtree)
 
 status_t rbtree_find(rbtree_t* p_rbtree, data_t data)
 {
-    return(search_rb_node(p_rbtree->p_root_node, data) != p_rbtree->p_nil);
+    return(search_rb_node(p_rbtree, data) != p_rbtree->p_nil);
 }
 
 rbnode_t* search_rb_node(rbtree_t* p_rbtree, data_t search_data)
