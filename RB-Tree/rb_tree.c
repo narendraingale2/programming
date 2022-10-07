@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 
 #include"rb_tree.h"
 
@@ -51,6 +52,46 @@ void postorder_walk(rbtree_t* p_rbtree)
     puts("[END]");
 }
 
+void preorder_node_level_walk(rbnode_t* p_rbnode, rbnode_t* nil)
+{
+    if(p_rbnode != nil)
+    {
+        printf("[%d]", p_rbnode->data);
+        preorder_node_level_walk(p_rbnode->left, nil);
+        preorder_node_level_walk(p_rbnode->right, nil);
+    }
+}
+
+void inorder_node_level_walk(rbnode_t* p_rbnode, rbnode_t* nil)
+{
+    if(p_rbnode != nil)
+    {
+        inorder_node_level_walk(p_rbnode->left, nil);
+        printf("[%d]", p_rbnode->data);
+        inorder_node_level_walk(p_rbnode->right, nil);
+    }
+}
+
+void destroy_node_level(rbnode_t* p_root_node, rbnode_t* nil)
+{
+    if(p_root_node != nil)
+    {
+        destroy_node_level(p_root_node->left, nil);
+        destroy_node_level(p_root_node->right, nil);
+        free(p_root_node);
+    }
+}
+void postorder_node_level_walk(rbnode_t* p_rbnode, rbnode_t* nil)
+
+{
+    if(p_rbnode != nil)
+    {
+        postorder_node_level_walk(p_rbnode->left, nil);
+        postorder_node_level_walk(p_rbnode->right, nil);
+        printf("[%d]", p_rbnode->data);
+    }
+}
+
 status_t rbtree_insert(rbtree_t* p_rbtree, data_t data)
 {
     rbnode_t* p_run;
@@ -96,6 +137,62 @@ status_t rbtree_insert(rbtree_t* p_rbtree, data_t data)
     rb_insert_fixup(p_rbtree, z);
     return(SUCCESS);
 }
+
+void rb_insert_fixup(rbtree_t* p_rbtree, rbnode_t* z)
+{
+    rbnode_t* y = NULL;
+
+    while (z->color == RED)
+    {
+       if(z->parent == z->parent->parent->left) 
+       {
+            y = z->parent->parent->right;
+            if(y->color == RED)
+            {
+                z->parent->color = BLACK;
+                y->color = BLACK;
+                z->parent->parent->color = RED;
+                z = z->parent->parent;
+            }
+            else
+            {
+                if(z == z->parent->right)
+                {
+                    z = z -> parent;
+                    left_rotate(p_rbtree, z->parent->parent);
+                }
+                z->parent->color = BLACK;
+                z->parent->parent->color = RED;
+                right_roatate(p_rbtree, z->parent->parent);
+            }
+       }
+       else
+       {
+        y = z->parent->parent->left;
+        if(y->color == RED)
+        {
+            z->parent->color = BLACK;
+            y->color = BLACK;
+            z->parent->parent->color = RED;
+            z = z->parent->parent;
+        }
+        else
+        {
+            if(z == z->parent->left)
+            {
+                z = z->parent;
+                right_roatate(p_rbtree, z);
+            }
+            z->parent->color = BLACK;
+            z->parent->parent->color = RED;
+            left_rotate(p_rbtree, z->parent->parent);
+        }
+       }
+    }
+    p_rbtree -> p_root_node ->color = BLACK;
+}
+
+
 
 status_t rbtree_delete(rbtree_t* p_rbtree, data_t data)
 {
@@ -210,4 +307,26 @@ rbnode_t* search_rb_node(rbtree_t* p_rbtree, data_t search_data)
     }
 
     return(p_run);
+}
+rbnode_t* get_rbnode(data_t new_data, rbnode_t* nil)
+{
+    rbnode_t* p_new_node = NULL;
+    p_new_node = (rbnode_t*)xcalloc(1,sizeof(rbnode_t));
+    p_new_node -> data = new_data;
+    p_new_node -> left = nil;
+    p_new_node -> right = nil;
+}
+
+void* xcalloc(size_t nr_elements, size_t size_per_element)
+{
+    void* p = NULL;
+
+    p = calloc(nr_elements, size_per_element); 
+    if (p == NULL)
+    {
+        fprintf(stderr, "Fatal error: Out of memory ");
+        exit(3);
+    }
+    
+    return(p);
 }
