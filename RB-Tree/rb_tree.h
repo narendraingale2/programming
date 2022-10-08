@@ -39,7 +39,7 @@ rbtree_t* create_rbtree(void);
 status_t rbtree_insert(rbtree_t* p_rbtree, data_t data);
 status_t rbtree_delete(rbtree_t* p_rbtee, data_t data);
 status_t rbtree_find(rbtree_t* p_rbtree, data_t data);
-unsigned int rbtree_get_hight(rbnode_t* p_rbtree);
+unsigned int rbtree_get_height(rbtree_t* p_rbtree);
 status_t destroy_rbtree(rbtree_t** pp_rbtree);
 
 void preorder_walk(rbtree_t* p_rbtree);
