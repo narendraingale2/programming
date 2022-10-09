@@ -16,12 +16,6 @@ int main(void)
     p_rb = create_rbtree();
     printf("Tree created \n");
     for(i = 0; i<50; i++)
-    {
-        printf("Inserting record %d..\n", arr[i]);
-        rbtree_insert(p_rb, arr[i]);
-        printf("Inserted record %d", arr[i]);
-
-    }
         assert(rbtree_insert(p_rb, arr[i])==SUCCESS);
     printf("Inserted all records\n");
     

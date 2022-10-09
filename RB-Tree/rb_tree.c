@@ -1,5 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include <math.h>
+#define min(a,b) fmin(a,b)
+#define max(a,b) fmax(a,b)
 
 #include"rb_tree.h"
 
@@ -100,10 +103,9 @@ status_t rbtree_insert(rbtree_t* p_rbtree, data_t data)
     p_run = p_rbtree->p_root_node;
 
     z = get_rbnode(data, p_rbtree->p_nil);
-    printf("Created node ...\n"); 
+
     if(p_run == p_rbtree->p_nil)
     {
-        printf("Inside if\n");
         p_rbtree -> p_root_node = z;
         p_rbtree->nr_nodes += 1;
         rb_insert_fixup(p_rbtree, z);
@@ -143,7 +145,7 @@ void rb_insert_fixup(rbtree_t* p_rbtree, rbnode_t* z)
 {
     rbnode_t* y = NULL;
 
-    while (z->color == RED)
+    while (z->parent->color == RED)
     {
        if(z->parent == z->parent->parent->left) 
        {
@@ -469,6 +471,7 @@ rbnode_t* get_rbnode(data_t new_data, rbnode_t* nil)
     p_new_node -> data = new_data;
     p_new_node -> left = nil;
     p_new_node -> right = nil;
+    p_new_node -> parent = nil;
     return p_new_node;
 }
 
