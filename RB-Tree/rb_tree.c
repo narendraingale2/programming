@@ -1,8 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include <math.h>
-#define min(a,b) fmin(a,b)
-#define max(a,b) fmax(a,b)
 
 #include"rb_tree.h"
 
@@ -209,7 +207,7 @@ status_t rbtree_delete(rbtree_t* p_rbtree, data_t data)
             return(RBTREE_DATA_NOT_FOUND);
         
         y = z;
-        y_original_color = z -> color;
+        y_original_color = y -> color;
 
         if(z->left == p_rbtree -> p_nil)
         {
