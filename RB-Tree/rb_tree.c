@@ -95,8 +95,8 @@ void postorder_node_level_walk(rbnode_t* p_rbnode, rbnode_t* nil)
 
 status_t rbtree_insert(rbtree_t* p_rbtree, data_t data)
 {
-    rbnode_t* p_run;
-    rbnode_t* z;
+    rbnode_t* p_run = NULL;
+    rbnode_t* z = NULL;
     
     p_run = p_rbtree->p_root_node;
 
@@ -117,6 +117,7 @@ status_t rbtree_insert(rbtree_t* p_rbtree, data_t data)
             if(p_run->left == p_rbtree -> p_nil)
             {
                 p_run -> left = z;
+                z->parent = p_run;
                 break;
             }
             else
@@ -127,6 +128,7 @@ status_t rbtree_insert(rbtree_t* p_rbtree, data_t data)
             if(p_run->right == p_rbtree ->p_nil)
             {
                 p_run -> right = z;
+                z->parent = p_run;
                 break;
             }
             else
@@ -160,7 +162,7 @@ void rb_insert_fixup(rbtree_t* p_rbtree, rbnode_t* z)
                 if(z == z->parent->right)
                 {
                     z = z -> parent;
-                    left_rotate(p_rbtree, z->parent->parent);
+                    left_rotate(p_rbtree, z);
                 }
                 z->parent->color = BLACK;
                 z->parent->parent->color = RED;
@@ -217,7 +219,7 @@ status_t rbtree_delete(rbtree_t* p_rbtree, data_t data)
         else if(z->right == p_rbtree -> p_nil)
         {
             x = z->left;
-            rb_transplant(p_rbtree, z, z->right);
+            rb_transplant(p_rbtree, z, z->left);
         }
         else
         {
@@ -238,9 +240,9 @@ status_t rbtree_delete(rbtree_t* p_rbtree, data_t data)
             y -> color = z->color;
         }
 
-        if( y_original_color == BLACK)
+        if( y_original_color == BLACK && x != p_rbtree -> p_nil)
             rb_remove_fixup(p_rbtree, x);
-        
+
         return(SUCCESS);
 }
 
@@ -252,15 +254,19 @@ void left_rotate(rbtree_t* p_rbtree, rbnode_t* x)
     y = x->right;
     x->right = y -> left;
     if(y->left != p_rbtree->p_nil)
+        y->left->parent = x;
+
+    y->parent = x->parent;
+    if(x->parent == p_rbtree->p_nil)
         p_rbtree->p_root_node = y;
     else if(x == x-> parent->left)
-        x->parent->right = y;
+        x->parent->left = y;
     else if(x == x->parent->right)
         x->parent->right = y;
     
     /* part 3*/
     y -> left = x;
-    y -> right = x;
+    x->parent = y;
 }
 
 void right_roatate(rbtree_t* p_rbtree, rbnode_t* x)
@@ -334,6 +340,7 @@ void rb_remove_fixup(rbtree_t* p_rbtree, rbnode_t* x)
             {
                 w -> color = BLACK;
                 x -> parent -> color = RED;
+                right_roatate(p_rbtree, x->parent);
                 w = x -> parent -> left;
             }
 
@@ -453,7 +460,7 @@ rbnode_t* search_rb_node(rbtree_t* p_rbtree, data_t search_data)
     {
         if(p_run->data == search_data)
             return(p_run);
-        else if(p_run -> data < search_data)
+        else if(search_data <= p_run -> data)
             p_run = p_run -> left;
         else
             p_run = p_run -> right;
