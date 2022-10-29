@@ -152,21 +152,21 @@ void rb_insert_fixup(rbtree_t* p_rbtree, rbnode_t* z)
             y = z->parent->parent->right;
             if(y->color == RED)
             {
-                z->parent->color = BLACK;
-                y->color = BLACK;
-                z->parent->parent->color = RED;
-                z = z->parent->parent;
+                z->parent->color = BLACK;               // case 1
+                y->color = BLACK;                       // case 1
+                z->parent->parent->color = RED;         // case 1
+                z = z->parent->parent;                  // case 1
             }
             else
             {
                 if(z == z->parent->right)
                 {
-                    z = z -> parent;
-                    left_rotate(p_rbtree, z);
+                    z = z -> parent;                    // case 2
+                    left_rotate(p_rbtree, z);           // case 2
                 }
-                z->parent->color = BLACK;
-                z->parent->parent->color = RED;
-                right_roatate(p_rbtree, z->parent->parent);
+                z->parent->color = BLACK;                     // case 3
+                z->parent->parent->color = RED;               // case 3
+                right_roatate(p_rbtree, z->parent->parent);   // case 3
             }
        }
        else
@@ -174,21 +174,21 @@ void rb_insert_fixup(rbtree_t* p_rbtree, rbnode_t* z)
         y = z->parent->parent->left;
         if(y->color == RED)
         {
-            z->parent->color = BLACK;
-            y->color = BLACK;
-            z->parent->parent->color = RED;
-            z = z->parent->parent;
+            z->parent->color = BLACK;                   // case 1
+            y->color = BLACK;                           // case 1
+            z->parent->parent->color = RED;             // case 1
+            z = z->parent->parent;                      // case 1
         }
         else
         {
             if(z == z->parent->left)
             {
-                z = z->parent;
-                right_roatate(p_rbtree, z);
+                z = z->parent;                          // case 2
+                right_roatate(p_rbtree, z);             // case 2
             }
-            z->parent->color = BLACK;
-            z->parent->parent->color = RED;
-            left_rotate(p_rbtree, z->parent->parent);
+            z->parent->color = BLACK;                   // case 3
+            z->parent->parent->color = RED;             // case 3
+            left_rotate(p_rbtree, z->parent->parent);   // case 3
         }
        }
     }
