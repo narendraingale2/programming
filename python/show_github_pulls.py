@@ -23,8 +23,8 @@ def print_pulls_summery(result):
     # To print -- before header and after header using same indent size so
     # dashes will form line before and after.
     print_header_pr_number_dash = '----------'
-    print_header_title_dash = "-----------------------------------------------"\
-    + "---------------------------------------------------------------"
+    print_header_title_dash = "----------------------------------------------"\
+    + "----------------------------------------------------------------"
     print_header_created_date_dash = "--------------------"
     print_header_last_updated_dash = "--------------------"
     print_header_author_dash = "---------------"
