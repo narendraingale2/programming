@@ -181,12 +181,11 @@ def accept_inputs():
     return args
 
 
-def main():
+def print_console_output(args):
     """
-        Main function
+    This function is driver function for console output. To do required
+    fromatting
     """
-    args = accept_inputs()
-
     if not validate_email(args.to_email) or not validate_email(args.from_email):
         print("`To` or `From` email address is not valid. Still going ahead" +
               " with report as script is not sending email")
@@ -223,10 +222,17 @@ def main():
     response = fetch_pulls(endpoint=args.endpoint,schema=args.schema,
                            user_name=args.user_name, repo_name=args.repo_name,
                            branch=args.branch,status='closed',
-                           auth_token=args.auth_token, interval=args.time_interval)
+                           auth_token=args.auth_token,
+                           interval=args.time_interval)
 
     print_pulls_summery(response)
 
+def main():
+    """
+        Main function
+    """
+    args = accept_inputs()
+    print_console_output(args)
 
 if __name__ == '__main__':
     main()
