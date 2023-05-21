@@ -12,27 +12,20 @@ def random_input(size):
         a.append(random.randint(0,99999))
     return a
 
-
-def output():
-    """
-    This function is to print output
-    """
-    pass
-
 def insert_at_sorting_position(a, size):
     """
     This function is to insert at sorting poistion
     """
 
     key = a[size-1]
-   
+
     i = size - 2
     while a[i] > key and i > -1:
         a[i+1] = a[i]
         i = i - 1
     
     a[i+1] = key
-    
+
 def insertion_sort(a):
     """
     Main insertion sort function
