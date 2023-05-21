@@ -4,5 +4,5 @@
 *.vscode
 *.pdb
 *.ilk
-.swp
+*.swp
 .class
