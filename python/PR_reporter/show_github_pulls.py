@@ -159,20 +159,20 @@ def accept_inputs():
         Function to accept intput and parse as per provided options.
     """
     parser = argparse.ArgumentParser(description='Print PR Summery')
-    parser.add_argument('--endpoint', '-e', help='Git hub api endpoint',
+    parser.add_argument('-e', '--endpoint', help='Git hub api endpoint',
                         default="api.github.com")
-    parser.add_argument('--schema', '-s',  help='api schema HTTPS/HTTP',
+    parser.add_argument('-s', '--schema', help='api schema HTTPS/HTTP',
                         default='https')
-    parser.add_argument('--user-name', '-u', help='User name', required=True)
-    parser.add_argument('--repo-name', '-r', help='Name of the repository',
+    parser.add_argument('-u', '--user-name', help='User name', required=True)
+    parser.add_argument('-r', '--repo-name', help='Name of the repository',
                         required=True)
-    parser.add_argument('--branch', '-b', help='Branch name', default='master')
-    parser.add_argument('--from-email', '-f', help='From email id', required=True)
-    parser.add_argument('--to-email', '-t', help='To email id', required=True)
-    parser.add_argument('--subject', '-m', help='Subject format',
+    parser.add_argument('-b','--branch',  help='Branch name', default='master')
+    parser.add_argument('-f', '--from-email', help='From email id', required=True)
+    parser.add_argument('-t', '--to-email',  help='To email id', required=True)
+    parser.add_argument('-m', '--subject',  help='Subject format',
                         default='PULL Request Summery')
-    parser.add_argument('--auth_token', '-a', help='Auth Token')
-    parser.add_argument('--time_interval', '-i',
+    parser.add_argument('-a', '--auth_token', help='Auth Token')
+    parser.add_argument('-i','--time_interval',
                         help='Time interval eg. We will have to gernate \
                             summery for last 7 days. Then value should be 7',
                             default=7)
