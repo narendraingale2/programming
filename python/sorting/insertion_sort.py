@@ -3,7 +3,7 @@ Insertion sort
 """
 import sys
 import random
-def input(size):
+def random_input(size):
     """
     This function is to print input
     """
@@ -44,7 +44,7 @@ def main():
     """
     This is main function
     """
-    a = input(sys.argv[1])
+    a = random_input(sys.argv[1])
     print("Array before sorting")
     print(a)
     insertion_sort(a)
