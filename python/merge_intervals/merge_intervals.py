@@ -4,6 +4,7 @@ import random
 
 def merge_interval(intervals):
     intervals.sort()
+    print(intervals)
     i = 0
     total_elements = len(intervals)
     while i < total_elements:
@@ -11,11 +12,13 @@ def merge_interval(intervals):
         end = intervals[i][1]
         j = i + 1
         while j < total_elements:
-            if end >= intervals[j][0]:
-                intervals[i][1] = intervals[j][1 ]
+            if intervals[i][1] >= intervals[j][0]:
+                if intervals[i][1] <= intervals[j][1]:
+                    intervals[i][1] = intervals[j][1]
                 del intervals[j]
                 total_elements = len(intervals)
-            j = j + 1
+            else:
+                j = j + 1
         i = i + 1
 
     
@@ -23,6 +26,7 @@ def merge_interval(intervals):
 
 
 if __name__ == '__main__':
-    intervals = [[1,3],[2,6],[8,10],[15,18]]
+    intervals = [[1,4],[0,2],[3,5]] 
+    print(intervals)
     merged_intervals = merge_interval(intervals)
     print(merged_intervals)
