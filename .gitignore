@@ -5,5 +5,7 @@
 *.pdb
 *.ilk
 *.swp
+*.swo
 .class
 python/practice*
+python/hackerrank/*
