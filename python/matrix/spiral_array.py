@@ -32,14 +32,13 @@ def print_spiral_array(array_to_spiral, m, n):
         ans.append(array_to_spiral[i][j])
         seen[i][j] = True
         if direction == 0:
-            # handle corner case
             if j == n or seen[i][j+1]:
-                direction = 1 
+                direction = 1
                 i = i + 1
                 continue
             else:
                 j = j + 1
-        
+
         if direction == 1:
             if i == m or seen[i+1][j]:
                 direction = 2
@@ -47,7 +46,7 @@ def print_spiral_array(array_to_spiral, m, n):
                 continue
             else:
                 i = i + 1
-        
+
         if direction == 2:
             if j == 0 or seen[i][j-1]:
                 direction = 3
@@ -55,17 +54,16 @@ def print_spiral_array(array_to_spiral, m, n):
                 continue
             else:
                 j = j - 1
-        
+
         if direction == 3:
             if i == 0 or seen[i-1][j]:
                 direction = 0
                 j = j + 1
             else:
                 i = i - 1
-    
+
     return ans
 
-                
 def main():
     array_to_spiral = []
     for i in range(0, int(sys.argv[2])):
