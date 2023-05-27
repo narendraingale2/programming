@@ -44,12 +44,6 @@ def print_lcs_string(lcs_dir_table,string1, m, n, i, j):
     else:
         print_lcs_string(lcs_dir_table,string1,m,n,i, j-1)
 
-
-        
-            
-             
-
-
 def main():
     lcs_length(sys.argv[1],sys.argv[2])
 
