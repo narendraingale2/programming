@@ -26,27 +26,24 @@ def merge(array1, array2, size1, size2, output):
                 break
 
 
-
 def merge_multiple_array(array_to_merge,i, j, output):
 
     if i == j:
         output.extend(array_to_merge[i])
         return
 
+    number_of_arrays = j - i + 1
+    if number_of_arrays == 1:
+        merge(array_to_merge[i], array_to_merge[j], len(array_to_merge[i]), len(array_to_merge[j]), output)
+        return 
+    
+    mid = (i + j) // 2 
     out1 = []
     out2 = []
+    merge_multiple_array(array_to_merge, i, mid, out1)
+    merge_multiple_array(array_to_merge, mid + 1, j, out2)
 
-    if j - i == 1:
-        print(f"Merging arrays array_to_merg[i]={array_to_merge[i]}, array_to_merge[j]={array_to_merge[j]}")
-        merge(array_to_merge[i], array_to_merge[j], len(array_to_merge[i]) - 1, len(array_to_merge[j]) - 1, output)
-        print(f"Array after merge={output}")
-        return 
-    merge_multiple_array(array_to_merge, i, (i+j)//2, out1)
-    merge_multiple_array(array_to_merge, (i + j)//2, j, out2)
-    
-    print(f"out1={out1}")
-    print(f"out2={out2}")
-    merge(out1, out2, len(out1) - 1, len(out2) - 1, output)
+    merge(out1,out2, len(out1), len(out2), output)
 
 
 
@@ -67,6 +64,7 @@ def main():
     output = []
     merge_multiple_array(array_to_sort, 0, len(array_to_sort) - 1, output)
 
+    print("Array after merge")
     print(output)
 
 if __name__ == '__main__':
