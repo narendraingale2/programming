@@ -1,0 +1,28 @@
+---
+name: Perform Jemeter performance testing
+
+on:
+  workflow_dispatch:
+    inputs:
+      java_version:
+        description: Java version
+        required: true
+        type: string
+        default: "17"
+      jmeter_version:
+        description: "Jmeter Version"
+        required: true
+        default: "5.6.3"
+      env:
+        description: 'Environment to run this test'
+        required: true
+        default: 'qa'
+        type: string
+jobs:
+    MyFirstJob:
+      runs-on: [ubuntu-latest]
+      steps:
+        - name: Test this workflow
+          run: |
+            echo "This is test workflow"
+          
