@@ -22,9 +22,12 @@ jobs:
     MyFirstJob:
       runs-on: [ubuntu-latest]
       steps:
+        - name: checkout
+          uses: actions/checkout@v4
+
         - name: Excute custom workflow
           id: custom_step
-          uses: ./setup-jemeter
+          uses: ./setup-jmeter
           with:
             java_version: ${{ inputs.java_version }}
             jmeter_version: ${{ inputs.jmeter_version}}
