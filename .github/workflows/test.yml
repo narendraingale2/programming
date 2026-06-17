@@ -22,7 +22,12 @@ jobs:
     MyFirstJob:
       runs-on: [ubuntu-latest]
       steps:
+        - name: Excute custom workflow
+          id: custom_step
+          uses: ./setup-jemeter
+          with:
+            java_version: ${{ inputs.java_version }}
+            jmeter_version: ${{ inputs.jmeter_version}}
         - name: Test this workflow
           run: |
             echo "This is test workflow"
-          

@@ -1,0 +1,27 @@
+---
+name: 'Setup Jmeter'
+description: 'Setup Jmeter'
+inputs:
+  java_version:
+    description: 'Java version'
+    required: true
+    default: "17"
+  jmeter_version:
+    description: "JMeter Version"
+    required: true
+    default: "5.6.3"
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ inputs.java_version }}
+        distribution: 'temurin'
+    - name: Install JMeter
+      shell: bash
+      run: |
+        JMETER_VERSION= ${{ inputs.jmeter_version }}
+        wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz
+        tar -xzf apache-jmeter-${JMETER_VERSION}.tgz
+        echo "$PWD/apache-jmeter-${JMETER_VERSION}/bin" >> $GITHUB_PATH
