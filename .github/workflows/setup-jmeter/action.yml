@@ -21,7 +21,7 @@ runs:
     - name: Install JMeter
       shell: bash
       run: |
-        JMETER_VERSION= ${{ inputs.jmeter_version }}
+        JMETER_VERSION=${{ inputs.jmeter_version }}
         wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz
         tar -xzf apache-jmeter-${JMETER_VERSION}.tgz
         echo "$PWD/apache-jmeter-${JMETER_VERSION}/bin" >> $GITHUB_PATH
