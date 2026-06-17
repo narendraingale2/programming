@@ -27,7 +27,7 @@ jobs:
 
         - name: Excute custom workflow
           id: custom_step
-          uses: ./setup-jmeter
+          uses: ./.github/workflows/setup-jmeter
           with:
             java_version: ${{ inputs.java_version }}
             jmeter_version: ${{ inputs.jmeter_version}}
